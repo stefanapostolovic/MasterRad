@@ -1,0 +1,93 @@
+Name: "Kurikulum1"
+Courses:
+  C:
+    Name: "Kurs1"
+    Modules:
+      M:
+        Name: "Modul1"
+        Text content: "tekst modula1"
+        Images: 
+          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+
+          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM1.jpg"
+        Videos:
+          "https://www.youtube.com/watch?v=9NYfm2yKVJQ"
+
+          "https://www.youtube.com/watch?v=DEuJ4Xq9UAI"
+        Test:
+          Name: "ModulTest1"
+          Questions:
+            Q:
+              text: "Modul tekst1"
+              type: open_ended
+              Answer: - "modul odgovor 1"
+              points: 4
+          PassCriteria: percentage_required: 85
+
+        Advice: "Advice module 1"
+    
+    Test:
+      Name: "KursTest1"
+      Questions:
+        Q:
+          text: "Kurs tekst1"
+          type: single_choice
+          Answers:
+            - [x] "kurs1 tacan odgovor"
+            - [ ] "kurs1 netacan odgovor"
+          points: 3
+          negativePoints: 1.5
+      PassCriteria: number_of_correct_answers_required: 1
+    
+    Advice: "Advice course 1"
+
+  C:
+    Name: "Kurs2"
+    Modules:
+      M:
+        Name: "Modul2"
+        Text content: "tekst modula2"
+        Images: 
+          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+
+          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM1.jpg"
+        Videos:
+          "https://www.youtube.com/watch?v=9NYfm2yKVJQ"
+
+          "https://www.youtube.com/watch?v=DEuJ4Xq9UAI"
+        Test:
+          Name: "ModulTest2"
+          Questions:
+            Q:
+              text: "Modul tekst2"
+              type: multiple_choice
+              Answers:
+                - [x] "kurs2 tacan odgovor1"
+                - [x] "kurs2 netacan odgovor2"
+                - [ ] "kurs2 netacan odgovor"
+              accept_partial_answer
+              points: 6.4
+
+            Q:
+              text: "Modul tekst3"
+              type: true_false
+              Answer: true
+              points: 10
+          PassCriteria: percentage_required: 91
+
+        Advice: "Advice module 2"
+        Prerequisites: module: Modul1
+    
+    Test:
+      Name: "KursTest2"
+      Questions:
+        Q:
+          text: "Kurs tekst2"
+          type: number
+          Answer: 20.0
+          points: 7
+          negativePoints: 2.1
+      PassCriteria: points_required: 30.5
+    
+    Advice: "Advice course 2"
+    Prerequisites: course: Kurs1
