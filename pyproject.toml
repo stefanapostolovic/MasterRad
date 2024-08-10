@@ -34,7 +34,7 @@ dependencies = [
 crc-run="main:main"
 
 [project.entry-points.textx_languages]
-crc_dsl = "DSL_language.interpreter:crc_parser"
+crc_dsl = "DSL_language.metamodel:crc_parser"
 
 # [project.entry-points.textx_generators]
 # recipe_dsl_html = "generator.generator:generate_recipe_descriptor"
