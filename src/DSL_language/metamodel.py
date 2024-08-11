@@ -35,12 +35,14 @@ def print_model(model):
   for crc in curr.courses:
     print("--Course info: ")
     print("--Course name: ", crc.name)
+    print("--Course is completed: ", crc.is_completed)
     print("---Modules for: ", crc.name)
     for m in crc.modules:
       print("---Module name: ", m.name)
       print("---Module text: ", m.text)
       print("---Module images: ", m.images)
       print("---Module videos: ", m.videos)
+      print("---Module is completed: ", m.is_completed)
       print("----Module test info:")
       print("----Test name: ", m.test.name)
       print("-----Test questions info:")

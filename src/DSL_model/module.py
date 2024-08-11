@@ -9,6 +9,10 @@ class Module:
     self.prerequisites = prerequisites
     self.images = images
     self.videos = videos
+    self.is_completed = False
   
   def init_test(self, t):
     return test.Test(t.name, t.questions, t.pass_criteria)
+  
+  def complete_module(self):
+    self.is_completed = True
