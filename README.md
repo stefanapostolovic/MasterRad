@@ -104,7 +104,7 @@ Courses:
           Answer: 20.0
           points: 7
           negativePoints: 2.1
-      PassCriteria: points_required: 30.5
+      PassCriteria: points_required: 4.5
     
     Advice: "Advice course 2"
     Prerequisites: course: Kurs1
