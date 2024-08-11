@@ -1,4 +1,4 @@
-from textx import metamodel_from_file, language
+from textx import metamodel_from_file, language, TextXSemanticError
 from textx.export import model_export
 from utils import module_path
 from DSL_model import curriculum
@@ -9,8 +9,16 @@ def init_metamodel(path=None):
   logging.info("Initializing the metamodel")
   crc_grammar_path = module_path('DSL_language/crcDSL.tx')
   crc_metamodel = metamodel_from_file(crc_grammar_path)
-  #TODO add processors
-  #crc_metamodel.register_obk_processors(...)
+  
+  object_processors = {
+    "Course": course_validator,
+    "SingleChoiceQuestion": single_choice_question_validator,
+    "MultipleChoiceQuestion": multiple_choice_question_validator,
+    "Question": question_validator,
+    "Test": test_validators,
+  }
+  crc_metamodel.register_obj_processors(object_processors)
+  crc_metamodel.register_model_processor(model_validator)
   
   if path is None:
     crc_model = crc_metamodel.model_from_file(module_path('Example/test.crc'))
@@ -22,7 +30,7 @@ def init_metamodel(path=None):
   model_export(crc_model, 'dot_files/metamodel.dot')
   
   #TEMP
-  print_model(crc_model)
+  #print_model(crc_model)
   
   return crc_model
 
@@ -109,6 +117,110 @@ def print_question_type(question_type):
       print("-----Answer is correct: ", a1.is_correct)
   else:
     print("-----Question answer: ", question_type.answer)
+
+#OBJECT VALIDATORS
+def course_validator(course):
+  for module in course.modules:
+    for prereq in module.prerequisites:
+      if hasattr(prereq, "course_name") and prereq.course_name.name == course.name:
+        raise TextXSemanticError("A module cannot have a course that it is a part of as a prerequisite")
+
+def single_choice_question_validator(single_choice_question):
+  correct_answer_counter = 0
+  
+  for answer in single_choice_question.answers:
+    if answer.is_correct:
+      correct_answer_counter += 1
+      if correct_answer_counter > 1:
+        raise TextXSemanticError("Single-choice questions can only have 1 correct answer!")
+  
+def multiple_choice_question_validator(multiple_choice_question):
+  correct_answer_counter = 0
+  
+  for answer in multiple_choice_question.answers:
+    if answer.is_correct:
+      correct_answer_counter += 1
+  
+  if correct_answer_counter <= 1:
+        raise TextXSemanticError("Multiple-choice questions must have more than 1 correct answer!")
+
+def question_validator(question):
+  if question.points <= 0:
+    raise TextXSemanticError(f"Question: {question.question_text} must have a defined points value above 0")
+
+def test_validators(test):
+  validate_percentage_required_criteria(test.pass_criteria)
+  validate_number_of_correct_answers_criteria(test)
+  validate_points_required_criteria(test)
+
+def validate_percentage_required_criteria(pass_criteria):
+  if pass_criteria.percentage_required < 0 or pass_criteria.percentage_required > 100:
+     raise TextXSemanticError("Percentage required must be a positive decimal number below 100")
+
+def validate_number_of_correct_answers_criteria(test):
+  if len(test.questions) < test.pass_criteria.number_of_correct_answers_required:
+    raise TextXSemanticError("Number of correct answers required to pass a test must not be larger than the total number of questions the test has")
+
+def validate_points_required_criteria(test):
+  test_total_points = 0
+  
+  for question in test.questions:
+    test_total_points += question.points
+  
+  if test_total_points < test.pass_criteria.points_required:
+    raise TextXSemanticError("The amount of points required to pass a test must not be larger than the total amount of points the test has")
+
+#MODEL VALIDATORS
+def model_validator(model, metamodel):
+    for course in model.courses:
+        check_for_cycles(course, metamodel)
+
+        for module in course.modules:
+            check_for_cycles(module, metamodel)
+
+    logging.info("Model validation passed: No circular dependencies detected.")
+
+def check_for_cycles(course_or_module, metamodel):
+    visited = set()
+    stack = set()
+
+    # Start DFS traversal
+    if has_cycle(course_or_module, visited, stack, metamodel):
+        raise TextXSemanticError(f"Circular dependency detected in {course_or_module.name}")
+
+def has_cycle(node, visited, stack, metamodel):
+    # Retrieve the necessary classes from the metamodel
+    CoursePrerequisite = metamodel['CoursePrerequisite']
+    ModulePrerequisite = metamodel['ModulePrerequisite']
+  
+    visited.add(node)
+    stack.add(node)
+
+    # Check all prerequisites
+    for prereq in node.prerequisites:
+        # Resolve the actual course or module object
+        if isinstance(prereq, CoursePrerequisite):
+            prereq_node = prereq.course_name
+        elif isinstance(prereq, ModulePrerequisite):
+            prereq_node = prereq.module_name
+        else:
+            continue
+
+        # Recursively check for cycles
+        if prereq_node not in visited:
+            if has_cycle(prereq_node, visited, stack, metamodel):
+                return True
+        elif prereq_node in stack:
+            return True
+
+    stack.remove(node)
+    return False
+
+# def get_course_by_name(model, name):
+#     return next((course for course in model.courses if course.name == name), None)
+
+# def get_module_by_name(courses, name):
+#     return next((module for course in courses for module in course.modules if module.name == name), None)
 
 @language('curriculum', '*.crc')
 def crc_parser():
