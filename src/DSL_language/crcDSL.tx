@@ -105,5 +105,5 @@ NumberQuestion:
 ;
 
 Answer:
-  '-' ('[' ']' | ('[' (is_correct?='x' | points=FLOAT) ']'))? text=STRING
+  '-' (('[' ']') | ('[' is_correct?='x' ']'))? text=STRING
 ;

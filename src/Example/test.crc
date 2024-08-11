@@ -63,7 +63,7 @@ Courses:
               type: multiple_choice
               Answers:
                 - [x] "kurs2 tacan odgovor1"
-                - [x] "kurs2 netacan odgovor2"
+                - [x] "kurs2 tacan odgovor2"
                 - [ ] "kurs2 netacan odgovor"
               accept_partial_answer
               points: 6.4

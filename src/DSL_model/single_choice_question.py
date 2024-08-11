@@ -8,6 +8,6 @@ class SingleChoiceQuestion:
     return_value = []
     
     for a in answers:
-      return_value.append(answer.Answer(a.text, a.is_correct, a.points))
+      return_value.append(answer.Answer(a.text, a.is_correct))
     
     return return_value

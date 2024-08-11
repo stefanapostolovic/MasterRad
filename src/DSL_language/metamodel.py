@@ -95,19 +95,16 @@ def print_question_type(question_type):
     for a in question_type.answers:
       print("-----Answer text: ", a.text)
       print("-----Answer is correct: ", a.is_correct)
-      print("-----Answer points: ", a.points)
     print("----Question accepts partial answers: ", question_type.accept_partial_answer)
   elif question_type.__class__.__name__ == "NumberQuestion":
     print("-----Question answer: ", question_type.answer)
   elif question_type.__class__.__name__ == "OpenEndedQuestion":
     print("-----Question answer text: ", question_type.answer.text)
     print("-----Question answer is correct: ", question_type.answer.is_correct)
-    print("-----Question answer points: ", question_type.answer.points)
   elif question_type.__class__.__name__ == "SingleChoiceQuestion":
     for a1 in question_type.answers:
       print("-----Answer text: ", a1.text)
       print("-----Answer is correct: ", a1.is_correct)
-      print("-----Answer points: ", a1.points)
   else:
     print("-----Question answer: ", question_type.answer)
 
