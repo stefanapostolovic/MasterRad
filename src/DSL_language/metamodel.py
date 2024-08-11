@@ -120,10 +120,20 @@ def print_question_type(question_type):
 
 #OBJECT VALIDATORS
 def course_validator(course):
+  validate_course_depenencies(course)
+  validate_module_dependencies(course)
+
+def validate_course_depenencies(course):
   for module in course.modules:
     for prereq in module.prerequisites:
       if hasattr(prereq, "course_name") and prereq.course_name.name == course.name:
         raise TextXSemanticError("A module cannot have a course that it is a part of as a prerequisite")
+
+def validate_module_dependencies(course):
+  for prereq1 in course.prerequisites:
+    for module1 in course.modules:
+      if hasattr(prereq1, "module_name") and prereq1.module_name.name == module1.name:
+        raise TextXSemanticError("A course cannot have one of its modules as a prerequisite")
 
 def single_choice_question_validator(single_choice_question):
   correct_answer_counter = 0
