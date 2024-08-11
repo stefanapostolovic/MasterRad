@@ -8,6 +8,7 @@ class Course:
     self.test = self.init_test(test)
     self.advice = advice
     self.prerequisites = prerequisites
+    self.is_completed = False
   
   def init_modules(self, modules):
     return_value = []
@@ -19,3 +20,6 @@ class Course:
   
   def init_test(self, t):
     return test.Test(t.name, t.questions, t.pass_criteria)
+  
+  def complete_course(self):
+    self.is_completed = True
