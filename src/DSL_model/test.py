@@ -14,4 +14,11 @@ class Test:
     return return_value
     
   def init_pass_criteria(self, pc):
-    return pass_criteria.PassCriteria(pc.percentage_required, pc.number_of_correct_answers_required, pc.points_required) 
+    return pass_criteria.PassCriteria(pc.percentage_required, pc.number_of_correct_answers_required, pc.points_required)
+  
+  def to_dict(self):
+    return {
+        "name": self.name,
+        "questions": [q.to_dict() for q in self.questions],
+        "pass_criteria": self.pass_criteria.to_dict()
+    } 
