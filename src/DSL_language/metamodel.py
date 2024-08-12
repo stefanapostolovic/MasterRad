@@ -37,7 +37,7 @@ def init_metamodel(path=None):
 #TEMP
 def print_model(model):
   curr = curriculum.Curriculum(model.name, model.courses)
-  #TEMP PRINTS
+  
   print("************************Curriculum model:************************")
   print("-Curriculum name: ", curr.name) 
   for crc in curr.courses:
@@ -80,14 +80,12 @@ def print_model(model):
     for pr1 in crc.prerequisites:
       print_prerequisite(pr1)
       
-#TEMP
 def print_prerequisite(prerequisite):
   try:
     print("---", prerequisite.course_name)
   except Exception as e:
     print("---", prerequisite.module_name)
 
-#TEMP
 def print_pass_criteria(pass_criteria):
   if pass_criteria.percentage_required != 0.0:
     print("----Percentage required: ", pass_criteria.percentage_required)
@@ -96,7 +94,6 @@ def print_pass_criteria(pass_criteria):
   else:
     print("----Points required: ", pass_criteria.points_required)
 
-#TEMP
 def print_question_type(question_type):
   print("----Question type: ", question_type.__class__.__name__)
   

@@ -1,25 +1,27 @@
 import logging
-import sys
-from DSL_language import metamodel 
+from fastapi import FastAPI
+from fastapi.middleware import Middleware, cors
+import uvicorn
+import api
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+origins = [
+  "http://localhost:3000"
+]
+
+middleware = [
+  Middleware(cors.CORSMiddleware, allow_origins=origins,
+             allow_methods=["*"], allow_headers=["*"],)
+]
+
+app = FastAPI(middleware=middleware)
+app.include_router(api.router)
+
 def main():
-  try:
-    logging.info("Application started...")
-    args = sys.argv[1:]
-    
-    model = None
-    if len(args) == 0:
-      model = metamodel.init_metamodel()
-    elif len(args) == 1:
-      model = metamodel.init_metamodel(args[0])
-    else:
-      logging.exception("Invalid arguments. Required argument - path to the curriculum file")
-    
-  except Exception as e:
-    logging.exception(e)
+  logging.info("Application started...")  
+  uvicorn.run("main:app", log_level="info", reload=True)
 
 if __name__ == '__main__':
-    main()
+  main()

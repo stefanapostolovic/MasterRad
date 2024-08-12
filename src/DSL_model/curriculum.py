@@ -5,6 +5,13 @@ class Curriculum:
     self.name = name
     self.courses = self.init_courses(courses)
   
+  def get_course_by_name(self, course_name):
+    for course in self.courses:
+      if course.name == course_name:
+        return course
+      
+    return None
+  
   def init_courses(self, courses):
     return_value = []
     
@@ -12,3 +19,9 @@ class Curriculum:
       return_value.append(course.Course(crs.name, crs.modules, crs.test, crs.advice, crs.prerequisites))
     
     return return_value
+  
+  def to_dict(self):
+    return {
+        "name": self.name,
+        "courses": [c.to_dict() for c in self.courses]
+    }
