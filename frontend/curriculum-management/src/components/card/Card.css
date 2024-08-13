@@ -1,0 +1,32 @@
+.card {
+  border: solid 1px rgb(81, 81, 81);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 10px;
+  margin-top: -1%;
+  text-align: center;
+  cursor: pointer;
+  background-color: #3d3d3d;
+  transition: background-color 0.3s ease, transform 0.2s;
+  max-width: 600px;
+}
+
+.card:hover {
+  background-color: #525151; /* Brighter background color on hover */
+  transform: scale(1.05); /* Optional: slight zoom effect on hover */
+}
+
+.title {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.description {
+  text-align: justify;
+  margin-top: 8%;
+}
+
+.icon {
+  margin-left: -6%;
+  margin-right: 4%;
+}
