@@ -3,11 +3,11 @@ import "./Card.css"
 import { useNavigate } from "react-router-dom";
 import BookIcon from "@mui/icons-material/Book";
 
-function Card({ id, title, description }) {
+function Card({ id, title, description, route }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/course/${id}`, { state: { title, description } });
+    navigate(`/${route}/${id}`, { state: { title, description } });
   };
 
   return (

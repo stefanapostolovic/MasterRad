@@ -2,6 +2,9 @@
   margin-left: 5%;
   margin-top: -2%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .card-detail h1 {
@@ -18,4 +21,11 @@
   display: flex;
   flex-wrap: wrap;
   padding: 20px;
+  flex: 1;
+}
+
+.bottom-button {
+  margin-top: auto; /* Pushes the button to the bottom */
+  margin-bottom: 20px; /* Adds space below the button */
+  align-self: center; /* Centers the button horizontally */
 }

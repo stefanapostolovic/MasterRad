@@ -16,9 +16,15 @@ class Curriculum:
     return_value = []
     
     for crs in courses:
-      return_value.append(course.Course(crs.name, crs.modules, crs.test, crs.advice, crs.prerequisites))
+      return_value.append(course.Course(crs.name, crs.description, crs.modules, crs.test, crs.advice, crs.prerequisites))
     
     return return_value
+  
+  def get_module_by_name(self, module_name):
+    for course in self.courses:
+      for module in course.modules:
+        if module.name == module_name:
+          return module
   
   def to_dict(self):
     return {

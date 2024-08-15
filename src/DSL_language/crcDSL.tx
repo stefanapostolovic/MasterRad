@@ -6,6 +6,7 @@ Curriculum:
 Course:
   'C:'
     'Name:' name=STRING
+    'Description:' description=STRING
     'Modules:' modules+=Module
     'Test:' test=Test
     ('Advice:' advice=STRING)?
@@ -15,6 +16,7 @@ Course:
 Module:
   'M:'
     'Name:' name=STRING
+    'Description:' description=STRING
     ('Text content:' text=STRING
     ('Images:' images+=ImageURL)?
     ('Videos:' videos+=VideoURL)?)#
@@ -28,11 +30,11 @@ Prerequisite:
 ;
 
 CoursePrerequisite:
-  'course:' course_name=[Course]
+  'course:' course_name=[Course|STRING]
 ;
 
 ModulePrerequisite:
-  'module:' module_name=[Module]
+  'module:' module_name=[Module|STRING]
 ;
 
 ImageURL:

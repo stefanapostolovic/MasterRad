@@ -46,6 +46,25 @@ def get_curriculum():
   
   return JSONResponse(content=json_response)
 
+@router.get("/courses", response_model=None)
+def get_all_course_names():
+  response = []
+  
+  for course in curric.courses:
+    response.append(course.name)
+  
+  if response.count == 0:
+    raise HTTPException(status_code=404, detail="No courses found.")
+  
+  try:
+    json_response = jsonable_encoder(response)
+  except Exception as e:
+    logging.exception("Exception: {}".format(type(e).__name__))
+    logging.exception("Exception message: {}".format(type(e)))
+    return
+  
+  return JSONResponse(content=json_response)
+
 @router.get("/course/{course_name}", response_model=None)
 def get_course_by_name(course_name: str):
   response = curric.get_course_by_name(course_name)
@@ -64,6 +83,7 @@ def get_course_by_name(course_name: str):
 
 @router.patch("/course/{course_name}", response_model=None)
 def complete_course(course_name: str, update_course_request: CompleteCourseRequest):
+  
   course = curric.get_course_by_name(course_name)
   if course is None:
     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
@@ -73,7 +93,8 @@ def complete_course(course_name: str, update_course_request: CompleteCourseReque
   return {"message": "Course completed successfully", "course": course.name}
 
 @router.get("/module/{course_name}/{module_name}", response_model=None)
-def get_module_by_name(course_name: str, module_name: str):
+def get_module_for_course_by_name(course_name: str, module_name: str):
+  
   course = curric.get_course_by_name(course_name)
   if course is None:
     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
@@ -91,8 +112,24 @@ def get_module_by_name(course_name: str, module_name: str):
   
   return JSONResponse(content=json_response)
 
+@router.get("/module/{module_name}", response_model=None)
+def get_module_by_name(module_name: str):
+  response = curric.get_module_by_name(module_name)
+  if response is None:
+    raise HTTPException(status_code=404, detail=f"Module with the name {module_name} not found.")
+  
+  try:
+    json_response = jsonable_encoder(response.to_dict())
+  except Exception as e:
+    logging.exception("Exception: {}".format(type(e).__name__))
+    logging.exception("Exception message: {}".format(type(e)))
+    return
+  
+  return JSONResponse(content=json_response)
+  
 @router.patch("/module/{course_name}/{module_name}", response_model=None)
 def complete_module(course_name: str, module_name: str, update_module_request: CompleteModuleRequest):
+  
   course = curric.get_course_by_name(course_name)
   if course is None:
     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
@@ -126,6 +163,7 @@ def get_test_by_course_name(course_name: str):
 
 @router.get("/test/{course_name}/{module_name}", response_model=None)
 def get_test_by_course_and_module_name(course_name: str, module_name: str):
+  
   course = curric.get_course_by_name(course_name)
   if course is None:
     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")

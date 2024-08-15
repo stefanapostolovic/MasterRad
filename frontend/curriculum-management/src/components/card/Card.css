@@ -9,6 +9,8 @@
   background-color: #3d3d3d;
   transition: background-color 0.3s ease, transform 0.2s;
   max-width: 600px;
+  min-width: 200px;
+  max-height: 280px;
 }
 
 .card:hover {

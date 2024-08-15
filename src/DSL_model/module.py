@@ -1,8 +1,9 @@
 from DSL_model import test
 
 class Module:
-  def __init__(self, name, text, test, advice = None, prerequisites=None, images=None, videos=None):
+  def __init__(self, name, description, text, test, advice = None, prerequisites=None, images=None, videos=None):
     self.name = name
+    self.description = description
     self.text = text
     self.test = self.init_test(test)
     self.advice = advice
@@ -28,6 +29,7 @@ class Module:
     
     return {
         "name": self.name,
+        "description": self.description,
         "text": self.text,
         "test": self.test.to_dict(),
         "advice": self.advice,
