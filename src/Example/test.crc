@@ -17,13 +17,19 @@ Courses:
         Quisque vehicula rhoncus consequat. Suspendisse feugiat in urna eu commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum dignissim mauris et augue rutrum dictum. Sed ornare ex et ipsum viverra sagittis. Nunc euismod bibendum mi, nec vestibulum ligula viverra sed. Nullam suscipit, ipsum non venenatis vehicula, lectus ante maximus ante, eu dignissim lacus lorem quis diam. Phasellus interdum neque lacinia tortor accumsan fringilla. Phasellus faucibus sodales malesuada. Pellentesque porttitor porttitor consectetur. Cras convallis velit vel urna finibus, vitae blandit sapien hendrerit. Cras varius, mauris at cursus fringilla, mi sapien tristique est, in convallis risus metus vel lacus. Nullam quis mollis tortor. Ut eget eros libero"
 
         Images: 
-          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Url: "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Description: "Opis slike 1"
 
-          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Url: "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Description: "Opis slike 2"
+
         Videos:
-          "https://www.youtube.com/watch?v=9NYfm2yKVJQ"
+          Url: "https://www.youtube.com/watch?v=9NYfm2yKVJQ"
+          Description: "Opis videa 1"
 
-          "https://www.youtube.com/watch?v=DEuJ4Xq9UAI"
+          Url: "https://www.youtube.com/watch?v=DEuJ4Xq9UAI"
+          Description: "Opis videa 2"
+
         Test:
           Name: "ModulTest1"
           Questions:
@@ -68,13 +74,19 @@ Courses:
         Vivamus faucibus velit sit amet leo bibendum sagittis. Proin urna turpis, facilisis ut leo sit amet, consequat dapibus erat. Proin at mauris lacus. Morbi efficitur elit vel posuere molestie. Fusce dictum a velit eget dapibus. Pellentesque porttitor condimentum odio. Integer faucibus nisi ex, pellentesque maximus ligula malesuada ac. Donec at lacinia lacus, ut porta elit. In sapien arcu, bibendum id suscipit quis, commodo at arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis id mattis sapien. Phasellus a lorem neque. Nullam faucibus fringilla massa, nec finibus lectus consectetur eu. Fusce laoreet blandit augue ac vulputate. Vestibulum eget purus feugiat eros lacinia accumsan. Curabitur sollicitudin bibendum risus, nec gravida quam pharetra eu."
 
         Images: 
-          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Url: "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Description: "Opis slike 1"
 
-          "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Url: "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Description: "Opis slike 2"
+
         Videos:
-          "https://www.youtube.com/watch?v=9NYfm2yKVJQ"
+          Url: "https://www.youtube.com/watch?v=9NYfm2yKVJQ"
+          Description: "Opis videa 1"
 
-          "https://www.youtube.com/watch?v=DEuJ4Xq9UAI"
+          Url: "https://www.youtube.com/watch?v=DEuJ4Xq9UAI"
+          Description: "Opis videa 2"
+          
         Test:
           Name: "ModulTest2"
           Questions:

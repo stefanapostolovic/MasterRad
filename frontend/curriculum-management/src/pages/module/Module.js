@@ -54,13 +54,13 @@ function Module() {
             <div>
               <img
                 key={index}
-                src={image}
+                src={image.url}
                 alt={`Image ${index + 1}`}
                 className="image"
               />
             </div>
             <div className="subext">
-              <p>Image {index + 1}: OPIS SLIKE</p>
+              <p>Image {index + 1}: {image.description}</p>
             </div>
           </div>
         ))}
@@ -68,9 +68,9 @@ function Module() {
       <h2>Video materials:</h2>
       <div className="video-row">
         {module.videos.map((video, index) => {
-          const videoId = getYouTubeID(video);
+          const videoId = getYouTubeID(video.url);
           if (!videoId) {
-            console.error(`Invalid YouTube URL: ${video}`);
+            console.error(`Invalid YouTube URL: ${video.url}`);
             return null;
           }
           return (
@@ -89,7 +89,7 @@ function Module() {
                 ></iframe>
               </div>
               <div className="subext">
-                <p>Video {index + 1}: OPIS VIDEA</p>
+                <p>Video {index + 1}: {video.description}</p>
               </div>
             </div>
           );
