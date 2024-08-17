@@ -27,7 +27,7 @@ function Test() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
   const [answers, setAnswers] = useState({});
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -76,14 +76,14 @@ function Test() {
         localStorage.removeItem("currentQuestionIndex");
         localStorage.removeItem("answers");
         localStorage.setItem("testName", test.name);
-        setCurrentQuestionIndex(0);
+        setCurrentQuestionIndex(1);
         setAnswers({});
       }
     }
   }, [test.name]);
 
   useEffect(() => {
-    if (currentQuestionIndex > 0) {
+    if (currentQuestionIndex > 1) {
       localStorage.setItem("currentQuestionIndex", currentQuestionIndex);
     }
   }, [currentQuestionIndex]);
@@ -110,18 +110,18 @@ function Test() {
   const handleAnswerChange = (newAnswer) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [currentQuestionIndex]: newAnswer,
+      [currentQuestionIndex - 1]: newAnswer,
     }));
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < test.questions.length - 1) {
+    if (currentQuestionIndex - 1 < test.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
 
   const handleBack = () => {
-    if (currentQuestionIndex > 0) {
+    if (currentQuestionIndex > 1) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
@@ -135,6 +135,7 @@ function Test() {
     // Handle the finish logic here
     localStorage.removeItem("currentQuestionIndex");
     localStorage.removeItem("answers");
+    console.log('Answers: ', answers)
     alert("Test finished!");
   };
 
@@ -160,10 +161,10 @@ function Test() {
           >
             <CardContent>
               <Question
-                question={test.questions[currentQuestionIndex]}
-                answer={answers[currentQuestionIndex] || ""}
+                question={test.questions[currentQuestionIndex-1]}
+                answer={answers[currentQuestionIndex-1] || ""}
                 onAnswerChange={handleAnswerChange}
-                currentQuestionIndex={currentQuestionIndex}
+                currentQuestionIndex={currentQuestionIndex-1}
               />
             </CardContent>
           </Card>
@@ -175,15 +176,15 @@ function Test() {
             onClick={handleBack}
             sx={{
               color: "white",
-              visibility: currentQuestionIndex === 0 ? "hidden" : "visible",
+              visibility: currentQuestionIndex === 1 ? "hidden" : "visible",
             }}
           >
             Back
           </Button>
           <p>
-            {currentQuestionIndex + 1} / {test.questions.length}
+            {currentQuestionIndex} / {test.questions.length}
           </p>
-          {currentQuestionIndex < test.questions.length - 1 ? (
+          {currentQuestionIndex-1 < test.questions.length - 1 ? (
             <Button
               size="medium"
               endIcon={<ArrowForwardIosIcon />}
@@ -218,7 +219,6 @@ function Test() {
         }}
       >
         <DialogTitle id="alert-dialog-title">
-          {"Confirm Finish Test"}
         </DialogTitle>
         <DialogContent>
           <Typography>
