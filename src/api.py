@@ -142,7 +142,7 @@ def complete_module(course_name: str, module_name: str, update_module_request: C
   
   return {"message": "Module completed successfully", "module": module.name}
 
-@router.get("/test/{course_name}", response_model=None)
+@router.get("/test/course/{course_name}", response_model=None)
 def get_test_by_course_name(course_name: str):
   course = curric.get_course_by_name(course_name)
   if course is None:
@@ -151,6 +151,25 @@ def get_test_by_course_name(course_name: str):
   response = course.test
   if response is None:
     raise HTTPException(status_code=404, detail=f"Course {course_name} has no tests.")
+  
+  try:
+    json_response = jsonable_encoder(response.to_dict())
+  except Exception as e:
+    logging.exception("Exception: {}".format(type(e).__name__))
+    logging.exception("Exception message: {}".format(type(e)))
+    return
+  
+  return JSONResponse(content=json_response)
+
+@router.get("/test/module/{module_name}", response_model=None)
+def get_test_by_module_name(module_name: str):
+  module = curric.get_module_by_name(module_name)
+  if module is None:
+    raise HTTPException(status_code=404, detail=f"Module with the name {module_name} not found.")
+
+  response = module.test
+  if response is None:
+    raise HTTPException(status_code=404, detail=f"Module {module_name} has no tests.")
   
   try:
     json_response = jsonable_encoder(response.to_dict())

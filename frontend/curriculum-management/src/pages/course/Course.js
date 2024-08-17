@@ -36,8 +36,9 @@ function Course() {
     fetchModules();
   }, [id]);
 
+  const type = "course";
   const takeTheTest = () => {
-    navigate("/test");
+    navigate(`/${id}/test`, { state: { type } });
   };
 
   if (loading) return <div>Loading...</div>;

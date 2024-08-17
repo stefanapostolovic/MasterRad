@@ -17,6 +17,11 @@ function Sidebar() {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleCourseClick = (courseName) => {
+    handleClose();
+    navigate(`/course/${courseName}`)
+  }
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -79,7 +84,7 @@ function Sidebar() {
             <ListItem
               button
               key={index}
-              onClick={() => navigate(`/course/${courseName}`)}
+              onClick={ () => handleCourseClick(courseName) }
             >
               <ListItemText primary={courseName} />
             </ListItem>

@@ -36,8 +36,9 @@ function Module() {
     return match ? match[1] : null;
   };
 
+  const type = 'module'
   const takeTheTest = () => {
-    navigate('/test')
+    navigate(`/${title}/test`, { state: { type } });
   }
 
   if (loading) return <div>Loading...</div>;

@@ -46,13 +46,38 @@ Courses:
       Name: "KursTest1"
       Questions:
         Q:
-          text: "Kurs tekst1"
+          text: "Kurs 1 pitanje 1"
           type: single_choice
           Answers:
             - [x] "kurs1 tacan odgovor"
             - [ ] "kurs1 netacan odgovor"
           points: 3
           negativePoints: 1.5
+        Q:
+          text: "Modul tekst1"
+          type: open_ended
+          Answer: - "modul odgovor 1"
+          points: 4
+        Q:
+          text: "Modul tekst2"
+          type: multiple_choice
+          Answers:
+            - [x] "kurs2 tacan odgovor1"
+            - [x] "kurs2 tacan odgovor2"
+            - [ ] "kurs2 netacan odgovor"
+          accept_partial_answer
+          points: 6.4
+        Q:
+          text: "Modul tekst3"
+          type: true_false
+          Answer: true
+          points: 10
+        Q:
+          text: "Kurs tekst2"
+          type: number
+          Answer: 20.0
+          points: 7
+          negativePoints: 2.1
       PassCriteria: number_of_correct_answers_required: 1
     
     Advice: "Advice course 1"
