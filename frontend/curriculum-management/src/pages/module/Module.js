@@ -89,7 +89,7 @@ function Module() {
                   className="video"
                 ></iframe>
               </div>
-              <div className="subext">
+              <div className="subtext">
                 <p>Video {index + 1}: {video.description}</p>
               </div>
             </div>

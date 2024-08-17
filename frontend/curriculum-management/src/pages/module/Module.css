@@ -7,6 +7,12 @@
   min-height: 100vh;
 }
 
+.module-detail h2 {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  text-align: center;
+}
+
 .image-row {
   display: flex;
   margin-top: 2%;
@@ -35,7 +41,7 @@
   flex-shrink: 0;
 }
 
-.subext {
+.subtext {
   text-align: center;
 }
 

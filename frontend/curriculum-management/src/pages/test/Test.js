@@ -15,7 +15,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
-
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 
 function Test() {
   const { id } = useParams(); // Extract the id from the URL
@@ -69,15 +70,9 @@ function Test() {
     const savedTestName = localStorage.getItem("testName");
 
     if (test.name) {
-      //console.log('A')
-      //console.log(savedTestName);
       if (savedTestName === undefined || savedTestName === null) {
-        //console.log("B");
         localStorage.setItem("testName", test.name);
-        //console.log("Saved test name");
       } else if (savedTestName !== test.name) {
-        //console.log("V");
-        //console.log("Test name has changed");
         localStorage.removeItem("currentQuestionIndex");
         localStorage.removeItem("answers");
         localStorage.setItem("testName", test.name);
@@ -153,12 +148,26 @@ function Test() {
         Criteria for passing: <b>{getTestPassageCriteria()}</b>
       </p>
       <div className="test-component">
-        <Question
-          question={test.questions[currentQuestionIndex]}
-          answer={answers[currentQuestionIndex] || ""}
-          onAnswerChange={handleAnswerChange}
-          currentQuestionIndex={currentQuestionIndex}
-        />
+        <div className="question-container">
+          <Card
+            sx={{
+              backgroundColor: "#3d3d3d",
+              color: "white",
+              border: "solid 1px rgb(81, 81, 81)",
+              borderRadius: "4px",
+              padding: "20px"
+            }}
+          >
+            <CardContent>
+              <Question
+                question={test.questions[currentQuestionIndex]}
+                answer={answers[currentQuestionIndex] || ""}
+                onAnswerChange={handleAnswerChange}
+                currentQuestionIndex={currentQuestionIndex}
+              />
+            </CardContent>
+          </Card>
+        </div>
         <div className="navigation-buttons">
           <Button
             size="medium"

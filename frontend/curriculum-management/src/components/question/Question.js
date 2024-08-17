@@ -169,11 +169,11 @@ function Question({ question, onAnswerChange, answer, currentQuestionIndex }) {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="question">
-      <div className="header">
+    <div>
+      <div>
         Question {currentQuestionIndex + 1}: <b>{question.question_text}</b>
       </div>
-      <div>{renderQuestionInput()}</div>
+      <div style={{ marginTop: "5%" }}>{renderQuestionInput()}</div>
     </div>
   );
 }

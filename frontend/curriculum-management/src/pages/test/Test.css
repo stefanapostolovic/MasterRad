@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  text-align: center;
 }
 
 .test-component {
@@ -12,19 +13,21 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 
-.question {
-  margin-top: 3%;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
+.question-container {
+  width: 40%;
+  margin: 0 auto; /* Center the question-container horizontally */
+  margin-top: 6%;
+  font-size: x-large;
 }
 
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  margin-left: 30%;
-  margin-right: 30%;
+  width: 30%;
+  margin: 0 auto;
   margin-top: auto; /* Pushes the buttons to the bottom */
 }
