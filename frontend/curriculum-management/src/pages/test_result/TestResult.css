@@ -1,0 +1,21 @@
+.result-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.result-card {
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.result-text {
+  font-size: 240px;
+  margin-bottom: 20px;
+}
+
+.result-details {
+  font-size: 18px;
+}

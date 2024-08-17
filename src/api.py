@@ -2,6 +2,7 @@ import sys
 import logging
 from Dto.Course.CompleteCourseRequest import CompleteCourseRequest
 from Dto.Modul.CompleteModuleRequest import CompleteModuleRequest
+from Dto.Test.CompleteTestRequest import CompleteTestRequest
 from fastapi import HTTPException, APIRouter
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -197,6 +198,54 @@ def get_test_by_course_and_module_name(course_name: str, module_name: str):
   
   try:
     json_response = jsonable_encoder(response.to_dict())
+  except Exception as e:
+    logging.exception("Exception: {}".format(type(e).__name__))
+    logging.exception("Exception message: {}".format(type(e)))
+    return
+  
+  return JSONResponse(content=json_response)
+
+@router.post("/test/completeFromCourse", response_model=None)
+def complete_test_from_course(request: CompleteTestRequest):
+  course_name = request.name
+  answers = request.answers
+  
+  course = curric.get_course_by_name(course_name)
+  if course is None:
+    raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
+  
+  #print(f"Received string: {course_name}")
+  #print(f"Received object: {answers}")
+  
+  response = course.test.grade_test(answers)
+  #print ("Test results: ", response)
+  
+  try:
+    json_response = jsonable_encoder(response)
+  except Exception as e:
+    logging.exception("Exception: {}".format(type(e).__name__))
+    logging.exception("Exception message: {}".format(type(e)))
+    return
+  
+  return JSONResponse(content=json_response)
+
+@router.post("/test/completeFromModule", response_model=None)
+def complete_test_from_module(request: CompleteTestRequest):
+  module_name = request.name
+  answers = request.answers
+  
+  module = curric.get_module_by_name(module_name)
+  if module is None:
+    raise HTTPException(status_code=404, detail=f"Module with the name {module_name} not found.")
+  
+  #print(f"Received string: {course_name}")
+  #print(f"Received object: {answers}")
+  
+  response = module.test.grade_test(answers)
+  #print ("Test results: ", response)
+  
+  try:
+    json_response = jsonable_encoder(response)
   except Exception as e:
     logging.exception("Exception: {}".format(type(e).__name__))
     logging.exception("Exception message: {}".format(type(e)))

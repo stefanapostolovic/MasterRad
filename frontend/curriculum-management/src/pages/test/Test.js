@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "./Test.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
+  completeTestFromCourse,
+  completeTestFromModule,
   getTestByCourseName,
   getTestByModuleName,
 } from "../../services/TestService";
@@ -21,6 +23,7 @@ import CardContent from "@mui/material/CardContent";
 function Test() {
   const { id } = useParams(); // Extract the id from the URL
   const location = useLocation();
+  const navigate = useNavigate();
   const type = location.state || {};
 
   const [test, setTest] = useState({});
@@ -130,13 +133,22 @@ function Test() {
     setOpenDialog(true);
   };
 
-  const handleConfirmFinish = () => {
+  const handleConfirmFinish = async () => {
     setOpenDialog(false);
-    // Handle the finish logic here
     localStorage.removeItem("currentQuestionIndex");
     localStorage.removeItem("answers");
-    console.log('Answers: ', answers)
-    alert("Test finished!");
+    
+    let data = {}
+    if (type.type === "course") {
+      data = await completeTestFromCourse(id, answers);
+    }
+    else {
+      data = await completeTestFromModule(id, answers);
+    }
+
+    navigate(`/${id}/test/test-result`, {
+      state: { result: data, pass_criteria: test.pass_criteria },
+    });
   };
 
   if (loading) return <div>Loading...</div>;

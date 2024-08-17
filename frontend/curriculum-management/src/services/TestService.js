@@ -22,3 +22,38 @@ export const getTestByModuleName = async (moduleName) => {
     throw error;
   }
 }
+
+export const completeTestFromCourse = async (courseName, answers) => {
+  try {
+    const response = await apiClient.post(
+      `/test/completeFromCourse`,
+      {
+        name: courseName,
+        answers: answers,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error while sending answers for the test from course: ",
+      courseName
+    );
+    throw error;
+  }
+}
+
+export const completeTestFromModule = async (moduleName, answers) => {
+  try {
+    const response = await apiClient.post(`/test/completeFromModule`, {
+      name: moduleName,
+      answers: answers,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error while sending answers for the test from module: ",
+      moduleName
+    );
+    throw error;
+  }
+}
