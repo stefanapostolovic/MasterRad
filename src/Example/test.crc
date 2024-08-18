@@ -63,10 +63,12 @@ Courses:
           type: multiple_choice
           Answers:
             - [x] "kurs2 tacan odgovor1"
+            - [ ] "kurs2 netacan odgovor1"
             - [x] "kurs2 tacan odgovor2"
-            - [ ] "kurs2 netacan odgovor"
+            - [ ] "kurs2 netacan odgovor2"
           accept_partial_answer
           points: 6.4
+          negativePoints: 1
         Q:
           text: "Modul tekst3"
           type: true_false
@@ -124,6 +126,7 @@ Courses:
                 - [ ] "kurs2 netacan odgovor"
               accept_partial_answer
               points: 6.4
+              negativePoints: 1
 
             Q:
               text: "Modul tekst3"
