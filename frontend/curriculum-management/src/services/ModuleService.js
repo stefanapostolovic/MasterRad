@@ -9,3 +9,15 @@ export const getModuleByName = async (moduleName) => {
     throw error;
   }
 };
+
+export const checkIfModuleIsComplete = async (moduleName) => {
+  try {
+    const response = await apiClient.get(`/module/is_complete/${moduleName}`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error while checking whether the module ${moduleName} is complete`
+    );
+    throw error;
+  }
+};

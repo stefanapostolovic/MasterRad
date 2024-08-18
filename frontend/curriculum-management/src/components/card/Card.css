@@ -10,6 +10,7 @@
   transition: background-color 0.3s ease, transform 0.2s;
   max-width: 600px;
   min-width: 200px;
+  min-height: 155px;
   max-height: 280px;
 }
 
@@ -31,4 +32,22 @@
 .icon {
   margin-left: -6%;
   margin-right: 4%;
+}
+
+.disabled-card {
+  border: solid 1px rgb(81, 81, 81);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 10px;
+  margin-top: -1%;
+  text-align: center;
+  background-color: #2c2b2b;
+  transition: background-color 0.3s ease, transform 0.2s;
+  max-width: 600px;
+  min-width: 200px;
+  min-height: 155px;
+  max-height: 280px;
+  cursor: not-allowed;
+  opacity: 0.5; /* Makes the card look disabled */
+  pointer-events: none; /* Prevents clicks on the card */
 }
