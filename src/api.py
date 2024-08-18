@@ -214,11 +214,10 @@ def complete_test_from_course(request: CompleteTestRequest):
   if course is None:
     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
   
-  #print(f"Received string: {course_name}")
-  #print(f"Received object: {answers}")
-  
   response = course.test.grade_test(answers)
-  #print ("Test results: ", response)
+  
+  if response["test_result"] == "passed":
+    course.complete_course()
   
   try:
     json_response = jsonable_encoder(response)
@@ -238,11 +237,10 @@ def complete_test_from_module(request: CompleteTestRequest):
   if module is None:
     raise HTTPException(status_code=404, detail=f"Module with the name {module_name} not found.")
   
-  #print(f"Received string: {course_name}")
-  #print(f"Received object: {answers}")
-  
   response = module.test.grade_test(answers)
-  #print ("Test results: ", response)
+  
+  if response["test_result"] == "passed":
+    module.complete_module()
   
   try:
     json_response = jsonable_encoder(response)
