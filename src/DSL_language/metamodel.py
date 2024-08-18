@@ -43,10 +43,12 @@ def print_model(model):
   for crc in curr.courses:
     print("--Course info: ")
     print("--Course name: ", crc.name)
+    print("--Course description: ", crc.description)
     print("--Course is completed: ", crc.is_completed)
     print("---Modules for: ", crc.name)
     for m in crc.modules:
       print("---Module name: ", m.name)
+      print("---Module description: ", m.description)
       print("---Module text: ", m.text)
       print("---Module images: ", m.images)
       print("---Module videos: ", m.videos)
@@ -152,9 +154,18 @@ def multiple_choice_question_validator(multiple_choice_question):
         raise TextXSemanticError("Multiple-choice questions must have more than 1 correct answer!")
 
 def question_validator(question):
+  validate_question_points(question)
+  validate_negative_points_and_accept_partial_answer(question)
+
+def validate_question_points(question):
   if question.points <= 0:
     raise TextXSemanticError(f"Question: {question.question_text} must have a defined points value above 0")
 
+def validate_negative_points_and_accept_partial_answer(question):
+  if question.question_type.__class__.__name__ == "MultipleChoiceQuestion" and hasattr(question.question_type, "accept_partial_answer"):
+    if hasattr(question, "negative_points") == False or hasattr(question, "negative_points") == True and question.negative_points <= 0:
+      raise TextXSemanticError(f"Multiple-choice question: {question.question_text} must have a defined negative points value above 0 if it accepts partial answers")
+  
 def test_validators(test):
   validate_percentage_required_criteria(test.pass_criteria)
   validate_number_of_correct_answers_criteria(test)

@@ -1,0 +1,52 @@
+.module-detail {
+  margin-left: 5%;
+  margin-top: -2%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.module-detail h2 {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  text-align: center;
+}
+
+.image-row {
+  display: flex;
+  margin-top: 2%;
+  gap: 100px; 
+  justify-content: center; 
+  align-items: center; 
+  flex-wrap: nowrap; 
+}
+
+.image {
+  max-width: 500px; 
+  max-height: 500px; 
+  object-fit: cover; 
+}
+
+.video-row {
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.video {
+  /* for controling the size and aspect ratio of the videos */
+  flex-shrink: 0;
+}
+
+.subtext {
+  text-align: center;
+}
+
+.bottom-button {
+  margin-top: auto; /* Pushes the button to the bottom */
+  margin-bottom: 20px; /* Adds space below the button */
+  align-self: center; /* Centers the button horizontally */
+}

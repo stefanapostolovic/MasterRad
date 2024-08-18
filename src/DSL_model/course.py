@@ -2,8 +2,9 @@ from DSL_model import test
 from DSL_model import module
 
 class Course:
-  def __init__(self, name, modules, test, advice=None, prerequisites=None):
+  def __init__(self, name, description, modules, test, advice=None, prerequisites=None):
     self.name = name
+    self.description = description
     self.modules = self.init_modules(modules)
     self.test = self.init_test(test)
     self.advice = advice
@@ -14,7 +15,7 @@ class Course:
     return_value = []
     
     for m in modules:
-      return_value.append(module.Module(m.name, m.text, m.test, m.advice, m.prerequisites, m.images, m.videos))
+      return_value.append(module.Module(m.name, m.description, m.text, m.test, m.advice, m.prerequisites, m.images, m.videos))
       
     return return_value
   
@@ -42,6 +43,7 @@ class Course:
     
     return {
         "name": self.name,
+        "description": self.description,
         "modules": [m.to_dict(seen) for m in self.modules],
         "test": self.test.to_dict(),
         "advice": self.advice,

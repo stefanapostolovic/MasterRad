@@ -1,0 +1,49 @@
+.sidebar {
+  background-color: #192637;
+  padding: 15px;
+  width: 3%;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-logo {
+  width: 52px; /* Adjust the size as needed */
+  margin-bottom: 20px;
+}
+
+body {
+  color: white;
+}
+
+.iconButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: medium;
+  text-align: center;
+}
+
+.iconTextButton {
+  margin-top: -15%;
+  padding-top: 20%;
+  background-color: transparent;
+  border-radius: 6%;
+  width: 85px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: medium;
+  text-align: center;
+}
+
+.iconTextButton:hover {
+  background-color: #263953; /* Brighter background color on hover */
+}
+
+.paragraph {
+  margin-top: -2%;
+}

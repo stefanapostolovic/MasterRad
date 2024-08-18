@@ -1,0 +1,31 @@
+.course-detail {
+  margin-left: 5%;
+  margin-top: -2%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.card-detail h1 {
+  margin-bottom: 10px;
+}
+
+.card-detail p {
+  margin-bottom: 20px;
+}
+
+.card-grid {
+  margin-top: 2%;
+  margin-left: -2%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  flex: 1;
+}
+
+.bottom-button {
+  margin-top: auto; /* Pushes the button to the bottom */
+  margin-bottom: 20px; /* Adds space below the button */
+  align-self: center; /* Centers the button horizontally */
+}
