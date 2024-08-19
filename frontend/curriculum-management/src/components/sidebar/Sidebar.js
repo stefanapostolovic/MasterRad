@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "./Sidebar.css"
 import logo from "../../resources/images/logo.png"
 import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
-import { getAllCourseNames } from "../../services/CourseService";
+import { checkIfCanAccessCourse, getAllCourseNames } from "../../services/CourseService";
 
 function Sidebar() {
   const navigate = useNavigate();
   const [courseNames, setCourseNames] = useState({});
+  const [accessList, setAccessList] = useState({})
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null); 
@@ -47,6 +48,26 @@ function Sidebar() {
     fetchCourseNames();
   }, []);
 
+  useEffect(() => {
+    if (courseNames.length > 0) {
+      const checkAccess = async () => {
+        try {
+          const accessibilities = {};
+
+          for (const name of courseNames) {
+            const result = await checkIfCanAccessCourse(name);
+            accessibilities[name] = result[name] === true;
+          }
+
+          setAccessList(accessibilities);
+        } catch (err) {
+          setError("Failed to check course accessibility");
+        }
+      };
+
+      checkAccess();
+    }
+  }, [courseNames]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -83,8 +104,9 @@ function Sidebar() {
           {courseNames.map((courseName, index) => (
             <ListItem
               button
+              disabled={!accessList[courseName]} // Disable if access is false
               key={index}
-              onClick={ () => handleCourseClick(courseName) }
+              onClick={() => handleCourseClick(courseName)}
             >
               <ListItemText primary={courseName} />
             </ListItem>

@@ -29,3 +29,29 @@
   margin-bottom: 20px; /* Adds space below the button */
   align-self: center; /* Centers the button horizontally */
 }
+
+.card-content {
+  width: 700px; /* Consistent width for all cards */
+  min-height: 200px; /* Ensures a minimum height, can be adjusted based on content */
+}
+
+.prerequisites-not-met {
+  margin-left: 3%;
+  color: red;
+  margin-top: 10px;
+}
+
+.prerequisites-not-met ul {
+  list-style-type: none; /* Removes bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.prerequisites-not-met li {
+  margin-bottom: 5px;
+  font-weight: bolder;
+}
+
+.header {
+  font-size: large;
+}

@@ -29,3 +29,38 @@ export const getAllCourseNames = async () => {
     throw error;
   }
 };
+
+export const checkIfCourseIsComplete = async (courseName) => {
+  try {
+    const response = await apiClient.get(`/course/is_complete/${courseName}`);
+    return response.data
+  } catch (error) {
+    console.error(`Error while checking whether the course ${courseName} is complete`)
+    throw error
+  }
+}
+
+export const checkIfCanAccessCourse = async (courseName) => {
+  try {
+    const response = await apiClient.get(`/course/can_access/${courseName}`)
+    return response.data
+  } catch (error) {
+    console.error(
+      `Error while checking whether the course ${courseName} can be accessed`
+    );
+    throw error;
+  }
+}
+
+export const checkIfCanTakeTest = async (courseName) => {
+  try {
+    const response = await apiClient.get(`/course/can_take_test/${courseName}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error while checking whether the test can be taken for the course: ${courseName}`
+    );
+    throw error;
+  }
+};

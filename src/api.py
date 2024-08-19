@@ -68,6 +68,10 @@ def get_all_course_names():
 
 @router.get("/course/{course_name}", response_model=None)
 def get_course_by_name(course_name: str):
+  canAccess = check_if_can_access_course(course_name)
+  if canAccess[course_name] == False:
+    raise HTTPException(status_code=403, detail=f"Course with the name {course_name} cannot be accessed.")
+    
   response = curric.get_course_by_name(course_name)
   
   if response is None:
@@ -82,9 +86,56 @@ def get_course_by_name(course_name: str):
   
   return JSONResponse(content=json_response)
 
+@router.get("/course/is_complete/{course_name}", response_model=None)
+def check_if_course_is_complete(course_name: str):
+  course = curric.get_course_by_name(course_name)
+  
+  if course is None:
+    raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
+  
+  response = {"is_completed": "true"} if course.is_completed else {"is_completed": "false"}
+  return response
+
+@router.get("/course/can_access/{course_name}", response_model=None)
+def check_if_can_access_course(course_name: str):
+  course = curric.get_course_by_name(course_name)
+  
+  if course is None:
+    raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
+
+  response = True
+  
+  for prereq in course.to_dict()["prerequisites"]:
+    nodeType, nodeName = str.split(prereq, ":")
+    if nodeType == "course":
+      prereqCourse = curric.get_course_by_name(nodeName)
+      if prereqCourse.is_completed == False:
+        response = False
+    else:
+      prereqModule = curric.get_module_by_name(nodeName)
+      if prereqModule.is_completed == False:
+        response = False
+    
+  return { course_name: response }
+
+@router.get("/course/can_take_test/{course_name}", response_model=None)
+def check_if_can_take_test(course_name: str):
+  course = curric.get_course_by_name(course_name)
+  
+  if course is None:
+    raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
+
+  response = True
+  
+  for module in course.modules:
+    if module.is_completed == False:
+      response = False
+      break
+    
+  return { "can_take_test": response }
+    
 @router.patch("/course/{course_name}", response_model=None)
 def complete_course(course_name: str, update_course_request: CompleteCourseRequest):
-  
   course = curric.get_course_by_name(course_name)
   if course is None:
     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
@@ -93,28 +144,32 @@ def complete_course(course_name: str, update_course_request: CompleteCourseReque
   
   return {"message": "Course completed successfully", "course": course.name}
 
-@router.get("/module/{course_name}/{module_name}", response_model=None)
-def get_module_for_course_by_name(course_name: str, module_name: str):
+# @router.get("/module/{course_name}/{module_name}", response_model=None)
+# def get_module_for_course_by_name(course_name: str, module_name: str):
   
-  course = curric.get_course_by_name(course_name)
-  if course is None:
-    raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
+#   course = curric.get_course_by_name(course_name)
+#   if course is None:
+#     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
   
-  response = course.get_module_by_name(module_name)
-  if response is None:
-    raise HTTPException(status_code=404, detail=f"Module with the name {module_name} in the course {course_name} not found.")
+#   response = course.get_module_by_name(module_name)
+#   if response is None:
+#     raise HTTPException(status_code=404, detail=f"Module with the name {module_name} in the course {course_name} not found.")
   
-  try:
-    json_response = jsonable_encoder(response.to_dict())
-  except Exception as e:
-    logging.exception("Exception: {}".format(type(e).__name__))
-    logging.exception("Exception message: {}".format(type(e)))
-    return
+#   try:
+#     json_response = jsonable_encoder(response.to_dict())
+#   except Exception as e:
+#     logging.exception("Exception: {}".format(type(e).__name__))
+#     logging.exception("Exception message: {}".format(type(e)))
+#     return
   
-  return JSONResponse(content=json_response)
+#   return JSONResponse(content=json_response)
 
 @router.get("/module/{module_name}", response_model=None)
 def get_module_by_name(module_name: str):
+  canAccess = check_if_can_access_module(module_name)
+  if canAccess[module_name] == False:
+    raise HTTPException(status_code=403, detail=f"Module with the name {module_name} cannot be accessed.")
+  
   response = curric.get_module_by_name(module_name)
   if response is None:
     raise HTTPException(status_code=404, detail=f"Module with the name {module_name} not found.")
@@ -127,7 +182,39 @@ def get_module_by_name(module_name: str):
     return
   
   return JSONResponse(content=json_response)
+
+@router.get("/module/is_complete/{module_name}", response_model=None)
+def check_if_course_is_complete(module_name: str):
+  module = curric.get_module_by_name(module_name)
   
+  if module is None:
+    raise HTTPException(status_code=404, detail=f"Module with the name {module} not found.")
+  
+  response = {"is_completed": "true"} if module.is_completed else {"is_completed": "false"}
+  return response
+
+@router.get("/module/can_access/{module_name}", response_model=None)
+def check_if_can_access_module(module_name: str):
+  module = curric.get_module_by_name(module_name)
+  
+  if module is None:
+    raise HTTPException(status_code=404, detail=f"Module with the name {module_name} not found.")
+
+  response = True
+  
+  for prereq in module.to_dict()["prerequisites"]:
+    nodeType, nodeName = str.split(prereq, ":")
+    if nodeType == "course":
+      prereqCourse = curric.get_course_by_name(nodeName)
+      if prereqCourse.is_completed == False:
+        response = False
+    else:
+      prereqModule = curric.get_module_by_name(nodeName)
+      if prereqModule.is_completed == False:
+        response = False
+    
+  return { module_name: response }
+
 @router.patch("/module/{course_name}/{module_name}", response_model=None)
 def complete_module(course_name: str, module_name: str, update_module_request: CompleteModuleRequest):
   

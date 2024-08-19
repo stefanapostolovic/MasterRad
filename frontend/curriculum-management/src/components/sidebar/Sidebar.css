@@ -47,3 +47,8 @@ body {
 .paragraph {
   margin-top: -2%;
 }
+
+.warning-message {
+  text-align: center;
+  color: red;
+}
