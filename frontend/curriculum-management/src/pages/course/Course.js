@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Card from "../../components/card/Card";
 import "./Course.css"; // Create this CSS file to style the detail page
 import { checkIfCanTakeTest, getCourseByName } from "../../services/CourseService";
@@ -20,12 +20,12 @@ function Course() {
 
   const [canTakeTest, setCanTakeTest] = useState(false)
 
-  const handlePrerequisitesCheck = (id, unmetPrerequisites) => {
+  const handlePrerequisitesCheck = useCallback((id, unmetPrerequisites) => {
     setUnmetPrerequisitesMap((prev) => ({
       ...prev,
       [id]: unmetPrerequisites,
     }));
-  };
+  }, []);
 
   useEffect(() => {
     const fetchModules = async () => {
@@ -50,7 +50,7 @@ function Course() {
       const checkCanTakeTest = async () => {
         try {
           const result = await checkIfCanTakeTest(title)
-          if (result["can_take_test"] == true) {
+          if (result["can_take_test"] === true) {
             setCanTakeTest(true)
           }
         } catch (err) {
@@ -78,7 +78,6 @@ function Course() {
         {modules.map((module) => (
           <div key={module.name} className="card-content">
             <Card
-              key={module.name}
               id={module.name}
               title={module.name}
               description={module.description}
@@ -95,8 +94,8 @@ function Course() {
                   </p>
                   <ul>
                     {unmetPrerequisitesMap[module.name].map(
-                      (prerequisite, index) => (
-                        <li key={index}>
+                      (prerequisite) => (
+                        <li key={prerequisite.module | prerequisite.course}>
                           {prerequisite.module
                             ? `Module: ${prerequisite.module}`
                             : `Course: ${prerequisite.course}`}
@@ -120,7 +119,10 @@ function Course() {
       </Button>
       {!canTakeTest && (
         <div className="warning-message">
-          <p>The test can be taken only after all modules in the course have been completed</p>
+          <p>
+            The test can be taken only after all modules in the course have been
+            completed
+          </p>
         </div>
       )}
     </div>

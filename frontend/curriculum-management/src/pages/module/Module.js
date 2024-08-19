@@ -27,7 +27,7 @@ function Module() {
     };
 
     fetchModule();
-  }, []);
+  }, [title]);
 
   // Helper function to extract YouTube video ID from URL
   const getYouTubeID = (url) => {
@@ -49,23 +49,22 @@ function Module() {
       <h1>{title}</h1>
       <p>{description}</p>
       <div>{module.text}</div>
+
       <div className="image-row">
         {module.images.map((image, index) => (
-          <div>
+          <div key={index}>
             <div>
-              <img
-                key={index}
-                src={image.url}
-                alt={`Image ${index + 1}`}
-                className="image"
-              />
+              <img src={image.url} alt={`${index + 1}`} className="image" />
             </div>
             <div className="subext">
-              <p>Image {index + 1}: {image.description}</p>
+              <p>
+                Image {index + 1}: {image.description}
+              </p>
             </div>
           </div>
         ))}
       </div>
+
       <h2>Video materials:</h2>
       <div className="video-row">
         {module.videos.map((video, index) => {
@@ -75,10 +74,9 @@ function Module() {
             return null;
           }
           return (
-            <div>
+            <div key={index}>
               <div>
                 <iframe
-                  key={index}
                   width="500"
                   height="300"
                   src={`https://www.youtube.com/embed/${videoId}`}
@@ -90,13 +88,20 @@ function Module() {
                 ></iframe>
               </div>
               <div className="subtext">
-                <p>Video {index + 1}: {video.description}</p>
+                <p>
+                  Video {index + 1}: {video.description}
+                </p>
               </div>
             </div>
           );
         })}
       </div>
-      <Button variant="contained" startIcon={<AlarmIcon/>} className="bottom-button" onClick={takeTheTest}>
+      <Button
+        variant="contained"
+        startIcon={<AlarmIcon />}
+        className="bottom-button"
+        onClick={takeTheTest}
+      >
         Take the test
       </Button>
     </div>

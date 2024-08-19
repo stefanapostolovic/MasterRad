@@ -53,7 +53,7 @@ function Card({
     };
 
     checkIfPrerequisitesMet();
-  }, [prerequisites, id]);
+  }, [prerequisites, id, onPrerequisitesCheck]);
 
   const handleClick = () => {
     navigate(`/${route}/${id}`, { state: { title, description } });

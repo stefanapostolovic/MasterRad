@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { getAllCourses } from "../../services/CourseService";
 import Card from "../../components/card/Card";
 import "./Home.css"
@@ -11,12 +11,12 @@ function Home() {
 
   const [unmetPrerequisitesMap, setUnmetPrerequisitesMap] = useState({});
 
-  const handlePrerequisitesCheck = (id, unmetPrerequisites) => {
+  const handlePrerequisitesCheck = useCallback((id, unmetPrerequisites) => {
     setUnmetPrerequisitesMap((prev) => ({
       ...prev,
       [id]: unmetPrerequisites,
     }));
-  };
+  }, []);
 
   useEffect(() => {
     const fetchCourses = async () => {
