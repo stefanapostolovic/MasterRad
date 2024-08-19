@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import "./Test.css";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
@@ -7,24 +7,29 @@ import {
   getTestByCourseName,
   getTestByModuleName,
 } from "../../services/TestService";
-import Button from "@mui/material/Button";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CheckIcon from "@mui/icons-material/Check";
 import Question from "../../components/question/Question";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+} from "@mui/material";
 
 function Test() {
   const { id } = useParams(); // Extract the id from the URL
   const location = useLocation();
   const navigate = useNavigate();
-  const type = location.state || {};
+  const { type, courseName, advice } = useMemo(
+    () => location.state || {},
+    [location.state]
+  );
 
   const [test, setTest] = useState({});
   const [loading, setLoading] = useState(true);
@@ -52,7 +57,7 @@ function Test() {
     const fetchTest = async () => {
       try {
         let data = {};
-        if (type.type === "course") {
+        if (type === "course") {
           data = await getTestByCourseName(id);
         } else {
           data = await getTestByModuleName(id);
@@ -66,7 +71,7 @@ function Test() {
     };
 
     fetchTest();
-  }, [id, type]);
+  }, [id, type, courseName]);
 
   // Check if the test name from localStorage matches the fetched test name
   useEffect(() => {
@@ -137,19 +142,69 @@ function Test() {
     setOpenDialog(false);
     localStorage.removeItem("currentQuestionIndex");
     localStorage.removeItem("answers");
-    
+
     let data = {}
-    if (type.type === "course") {
+    if (type === "course") {
       data = await completeTestFromCourse(id, answers);
     }
     else {
       data = await completeTestFromModule(id, answers);
     }
 
+    const correctAnswers = getCorrectAnswers();
+
     navigate(`/${id}/test/test-result`, {
-      state: { result: data, pass_criteria: test.pass_criteria },
+      state: {
+        result: data,
+        pass_criteria: test.pass_criteria,
+        type: type,
+        courseName: courseName,
+        correctAnswers: correctAnswers,
+        advice: advice
+      },
     });
   };
+
+  const getCorrectAnswers = () => {
+    const result = [];
+
+    for (const question of test.questions) {
+      if (question.question_type.type === "NumberQuestion") {
+        result.push({
+          [question.question_text]: question.question_type.answer,
+        });
+      } else if (question.question_type.type === "TrueFalseQuestion") {
+        result.push({
+          [question.question_text]: question.question_type.answer,
+        });
+      } else if (question.question_type.type === "MultipleChoiceQuestion") {
+        const corrAns = [];
+        for (const ans of question.question_type.answers) {
+          if (ans.is_correct) {
+            corrAns.push(ans.text);
+          }
+        }
+        result.push({
+          [question.question_text]: corrAns,
+        });
+      } else if (question.question_type.type === "OpenEndedQuestion") {
+        result.push({
+          [question.question_text]: question.question_type.answer.text,
+        });
+      } else {
+        for (const ans1 of question.question_type.answers) {
+          if (ans1.is_correct) {
+            result.push({
+              [question.question_text]: ans1.text,
+            });
+            break;
+          }
+        }
+      }
+    }
+
+    return result
+  }
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;

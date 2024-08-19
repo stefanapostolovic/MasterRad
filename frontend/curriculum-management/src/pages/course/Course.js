@@ -13,6 +13,7 @@ function Course() {
   const [modules, setModules] = useState([]);
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [advice, setAdvice] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -35,6 +36,7 @@ function Course() {
         setModules(data.modules);
         setTitle(data.name)
         setDescription(data.description)
+        setAdvice(data.advice)
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch modules");
@@ -64,7 +66,8 @@ function Course() {
 
   const type = "course";
   const takeTheTest = () => {
-    navigate(`/${id}/test`, { state: { type } });
+    const courseName = title
+    navigate(`/${id}/test`, { state: { type, courseName, advice } });
   };
 
   if (loading) return <div>Loading...</div>;
@@ -84,6 +87,8 @@ function Course() {
               route={"module"}
               prerequisites={module.prerequisites}
               onPrerequisitesCheck={handlePrerequisitesCheck}
+              isCompleted={module.is_completed}
+              courseName={title}
             />
             {unmetPrerequisitesMap[module.name] &&
               unmetPrerequisitesMap[module.name].length > 0 && (
@@ -93,15 +98,13 @@ function Course() {
                     the following:
                   </p>
                   <ul>
-                    {unmetPrerequisitesMap[module.name].map(
-                      (prerequisite) => (
-                        <li key={prerequisite.module | prerequisite.course}>
-                          {prerequisite.module
-                            ? `Module: ${prerequisite.module}`
-                            : `Course: ${prerequisite.course}`}
-                        </li>
-                      )
-                    )}
+                    {unmetPrerequisitesMap[module.name].map((prerequisite) => (
+                      <li key={prerequisite.module | prerequisite.course}>
+                        {prerequisite.module
+                          ? `Module: ${prerequisite.module}`
+                          : `Course: ${prerequisite.course}`}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}

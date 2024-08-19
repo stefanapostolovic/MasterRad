@@ -8,7 +8,7 @@ import AlarmIcon from "@mui/icons-material/Alarm";
 function Module() {
   const navigate = useNavigate()
   const location = useLocation();
-  const { title, description } = location.state || {};
+  const { title, description, courseName } = location.state || {};
 
   const [module, setModule] = useState({});
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,8 @@ function Module() {
 
   const type = 'module'
   const takeTheTest = () => {
-    navigate(`/${title}/test`, { state: { type } });
+    const advice = module.advice
+    navigate(`/${title}/test`, { state: { type, courseName, advice } });
   }
 
   if (loading) return <div>Loading...</div>;

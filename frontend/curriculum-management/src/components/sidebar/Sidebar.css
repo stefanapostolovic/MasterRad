@@ -48,7 +48,24 @@ body {
   margin-top: -2%;
 }
 
+.icon-paragraph {
+  margin-top: -2%;
+  color: #f5cb43;
+}
+
 .warning-message {
   text-align: center;
   color: red;
+}
+
+.course-name {
+  font-size: small;
+  overflow-wrap: break-word; /* Allows text to break and wrap to the next line */
+  word-wrap: break-word; /* Ensures long words break and wrap correctly */
+  text-align: center; /* Centers the text horizontally */
+  color: white;
+  margin: 0; /* Removes default margin */
+  padding: 0; /* Removes default padding */
+  max-width: 100%; /* Ensures the text container does not exceed the sidebar width */
+  margin-bottom: 20%;
 }

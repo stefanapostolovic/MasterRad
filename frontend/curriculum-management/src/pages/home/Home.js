@@ -51,6 +51,7 @@ function Home() {
               route={"course"}
               prerequisites={course.prerequisites}
               onPrerequisitesCheck={handlePrerequisitesCheck}
+              isCompleted={course.is_completed}
             />
             {unmetPrerequisitesMap[course.name] &&
               unmetPrerequisitesMap[course.name].length > 0 && (
