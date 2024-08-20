@@ -4,7 +4,6 @@
   justify-content: center; /* Center the card vertically */
   align-items: center; /* Center the card horizontally */
   height: auto;
-  position: relative; /* Make container relative to position button at the bottom */
   margin-top: 5%;
 }
 
