@@ -55,7 +55,6 @@ export const checkIfCanAccessCourse = async (courseName) => {
 export const checkIfCanTakeTest = async (courseName) => {
   try {
     const response = await apiClient.get(`/course/can_take_test/${courseName}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(

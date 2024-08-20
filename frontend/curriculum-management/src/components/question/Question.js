@@ -11,12 +11,30 @@ import {
 
 function Question({ question, onAnswerChange, answer, currentQuestionIndex }) {
   const [loading, setLoading] = useState(true);
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
 
   useEffect(() => {
     if (question !== undefined) {
-      setLoading(false)
+      setLoading(false);
+
+      if (question.question_type.type === "SingleChoiceQuestion" || question.question_type.type === "MultipleChoiceQuestion") {
+        const answers = question.question_type.answers;
+  
+        const shuffled = shuffleArray(answers);
+        setShuffledAnswers(shuffled);
+      }
+
     }
   }, [question]);
+
+  const shuffleArray = (array) => {
+    let shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
 
   const renderQuestionInput = () => {
     switch (question.question_type.type) {
@@ -70,7 +88,7 @@ function Question({ question, onAnswerChange, answer, currentQuestionIndex }) {
             value={answer}
             onChange={(e) => onAnswerChange(e.target.value)}
           >
-            {question.question_type.answers.map((a, index) => (
+            {shuffledAnswers.map((a, index) => (
               <FormControlLabel
                 key={index}
                 value={a.text}
@@ -84,7 +102,7 @@ function Question({ question, onAnswerChange, answer, currentQuestionIndex }) {
       case "MultipleChoiceQuestion":
         return (
           <FormGroup>
-            {question.question_type.answers.map((a, index) => (
+            {shuffledAnswers.map((a, index) => (
               <FormControlLabel
                 sx={{
                   marginTop: "2%",

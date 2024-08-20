@@ -4,7 +4,8 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  height: 95%;
   text-align: center;
 }
 
@@ -20,6 +21,7 @@
   width: 40%;
   margin: 0 auto; /* Center the question-container horizontally */
   margin-top: 6%;
+  /* margin-bottom: 15%; */
   font-size: x-large;
 }
 

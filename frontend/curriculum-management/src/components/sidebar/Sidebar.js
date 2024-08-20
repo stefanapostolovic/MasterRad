@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Popover, List, ListItem, ListItemText } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css"
-import logo from "../../resources/images/logo.png"
 import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import { checkIfCanAccessCourse, getAllCourseNames } from "../../services/CourseService";
+import Divider from "@mui/material/Divider";
+import BookIcon from "@mui/icons-material/Book";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 function Sidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [clickedCourseName, setClickedCourseName] = useState("");
   const [courseNames, setCourseNames] = useState({});
   const [accessList, setAccessList] = useState({})
   const [loading, setLoading] = useState(true);
@@ -32,6 +36,23 @@ function Sidebar() {
   const goToHome = () => {
     navigate("/");
   };
+
+  const description = ""
+
+  const goToModules = () => {
+    navigate(`/course/${clickedCourseName}`, {
+      state: { clickedCourseName, description },
+    });
+  }
+
+  useEffect(() => {
+    const pathSegments = location.pathname.split("/");
+    if (location.pathname === "/") {
+      setClickedCourseName(""); // Hide course name on the home page
+    } else if (pathSegments.includes("course")) {
+      setClickedCourseName(decodeURIComponent(pathSegments[2])); // Set course name from the URL
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const fetchCourseNames = async () => {
@@ -75,7 +96,8 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <button className="iconButton" onClick={goToHome}>
-        <img src={logo} alt="logo" className="sidebar-logo" />
+        {/* <img src={logo} alt="logo" className="sidebar-logo" /> */}
+        <MenuBookIcon sx={{ fontSize: 51, marginBottom: "51%" }} />
       </button>
       <button className="iconTextButton" onClick={handleClick}>
         <CollectionsBookmarkIcon />
@@ -113,6 +135,25 @@ function Sidebar() {
           ))}
         </List>
       </Popover>
+      {clickedCourseName && (
+        <Divider
+          sx={{
+            borderColor: "white",
+            borderBottomWidth: 1,
+            width: "150%",
+            marginY: 1 /* Vertical margin */,
+          }}
+        />
+      )}
+      {clickedCourseName && (
+        <div className="course-name">{clickedCourseName}</div>
+      )}
+      {clickedCourseName && (
+        <button className="iconTextButton" onClick={goToModules}>
+          <BookIcon sx={{ color: "#f5cb43" }} />
+          <p className="icon-paragraph">All lessons</p>
+        </button>
+      )}
     </div>
   );
 }

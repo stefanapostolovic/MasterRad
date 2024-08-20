@@ -1,13 +1,57 @@
 import "./TestResult.css"
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import ReplayIcon from "@mui/icons-material/Replay";
+import NextPlanIcon from "@mui/icons-material/NextPlan";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import KeyIcon from "@mui/icons-material/Key";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+  Divider,
+} from "@mui/material";
 
 const TestResult = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  const { result, pass_criteria } = location.state || {};
+  const { result, pass_criteria, type, courseName, correctAnswers, advice } =
+    location.state || {};
   const { test_result, points, num_of_correct_answ, percentage } = result;
+
+  const [openCheckAnswersDialog, setOpenCheckAnswersDialog] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpenCheckAnswersDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenCheckAnswersDialog(false);
+  };
+
+  const retakeTest = () => {
+    const pathSegments = location.pathname.split("/");
+    const nodeName = pathSegments[1]
+    navigate(`/${nodeName}/test`, { state: { type, courseName } });
+  }
+
+  const goBack = () => {
+    const pathSegments = location.pathname.split("/");
+    const nodeName = pathSegments[1];
+
+    if (type === "course") {
+      navigate('/')
+    }
+    else {
+      const description = ""
+      navigate(`/course/${courseName}`, { state: { nodeName, description } });
+    }
+  }
 
   if (!result) {
     return <div>No result data available.</div>;
@@ -23,7 +67,9 @@ const TestResult = () => {
           borderRadius: "4px",
           padding: "20px",
         }}
-        className="result-card"
+        className={
+          test_result === "passed" ? "result-card-passed" : "result-card-failed"
+        }
       >
         <CardContent>
           <Typography
@@ -76,6 +122,145 @@ const TestResult = () => {
           </Typography>
         </CardContent>
       </Card>
+      {test_result === "failed" && (
+        <div>
+          <div className="tips">
+            <TipsAndUpdatesIcon /> Tips: {advice}
+          </div>
+          <div className="bottom-buttons-failed">
+            <Button
+              variant="contained"
+              startIcon={<KeyIcon />}
+              sx={{ color: "white", height: "40px", marginRight: "7%" }}
+              onClick={handleClickOpen}
+            >
+              Check Answers
+            </Button>
+
+            <Dialog
+              open={openCheckAnswersDialog}
+              onClose={handleClose}
+              PaperProps={{
+                sx: {
+                  backgroundColor: "#333",
+                  color: "white",
+                },
+              }}
+            >
+              <DialogTitle>Correct Answers</DialogTitle>
+              <DialogContent>
+                {correctAnswers.map((answerObj, index) => {
+                  const question = Object.keys(answerObj)[0];
+                  const answer = answerObj[question];
+
+                  return (
+                    <div key={index} style={{ marginBottom: "15px" }}>
+                      <Divider sx={{ borderColor: "white", marginY: 2 }} />
+                      <Typography variant="body1">
+                        <b>Question:</b> {question}
+                      </Typography>
+                      <Typography variant="body1" component="div">
+                        <b>Answer:</b>{" "}
+                        {Array.isArray(answer) ? (
+                          <ul>
+                            {answer.map((ans, i) => (
+                              <li key={i}>{ans}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          answer.toString()
+                        )}
+                      </Typography>
+                    </div>
+                  );
+                })}
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} sx={{ color: "white" }}>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            <Button
+              variant="contained"
+              color="warning"
+              startIcon={<ReplayIcon />}
+              sx={{ color: "white", height: "40px" }}
+              onClick={retakeTest}
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      )}
+      {test_result === "passed" && (
+        <div className="bottom-buttons-passed">
+          <Button
+            variant="contained"
+            startIcon={<KeyIcon />}
+            sx={{ color: "white", height: "40px", marginRight: "7%" }}
+            onClick={handleClickOpen}
+          >
+            Check Answers
+          </Button>
+
+          <Dialog
+            open={openCheckAnswersDialog}
+            onClose={handleClose}
+            PaperProps={{
+              sx: {
+                backgroundColor: "#333",
+                color: "white",
+              },
+            }}
+          >
+            <DialogTitle>Correct Answers</DialogTitle>
+            <DialogContent>
+              {correctAnswers.map((answerObj, index) => {
+                const question = Object.keys(answerObj)[0];
+                const answer = answerObj[question];
+
+                return (
+                  <div key={index} style={{ marginBottom: "15px" }}>
+                    <Divider sx={{ borderColor: "white", marginY: 2 }} />
+                    <Typography variant="body1">
+                      <b>Question:</b> {question}
+                    </Typography>
+                    <Typography variant="body1" component="div">
+                      <b>Answer:</b>{" "}
+                      {Array.isArray(answer) ? (
+                        <ul>
+                          {answer.map((ans, i) => (
+                            <li key={i}>{ans}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        answer.toString()
+                      )}
+                    </Typography>
+                  </div>
+                );
+              })}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} sx={{ color: "white" }}>
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Button
+            variant="contained"
+            color="success"
+            startIcon={<NextPlanIcon />}
+            sx={{ color: "white", height: "40px" }}
+            onClick={goBack}
+          >
+            Go to next {type}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

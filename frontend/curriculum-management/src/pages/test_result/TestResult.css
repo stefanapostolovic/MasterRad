@@ -1,11 +1,20 @@
 .result-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: center; /* Center the card vertically */
+  align-items: center; /* Center the card horizontally */
+  height: auto;
+  margin-top: 5%;
 }
 
-.result-card {
+.result-card-passed {
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: 200px;
+}
+
+.result-card-failed {
   padding: 20px;
   max-width: 500px;
   width: 100%;
@@ -18,4 +27,29 @@
 
 .result-details {
   font-size: 18px;
+}
+
+.try-again-button {
+  position: absolute; /* Position relative to .result-container */
+  bottom: 20px; /* Distance from the bottom */
+  background-color: #1976d2; /* MUI primary color or custom color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tips {
+  margin-top: 40%;
+  margin-bottom: 40%;
+}
+
+.bottom-buttons-failed {
+  width: 400px;
+}
+
+.bottom-buttons-passed {
+  width: 500px;
+  text-align: center;
 }

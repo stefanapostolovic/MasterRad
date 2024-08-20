@@ -4,7 +4,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: auto;
 }
 
 .card-detail h1 {
@@ -18,6 +18,7 @@
 .card-grid {
   margin-top: 2%;
   margin-left: -2%;
+  margin-bottom: 10%;
   display: flex;
   flex-wrap: wrap;
   padding: 20px;

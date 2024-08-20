@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Card.css"
 import { useNavigate } from "react-router-dom";
 import BookIcon from "@mui/icons-material/Book";
+import CheckIcon from "@mui/icons-material/Check";
 import { checkIfCourseIsComplete } from "../../services/CourseService";
 import { checkIfModuleIsComplete } from "../../services/ModuleService";
 
@@ -12,6 +13,8 @@ function Card({
   route,
   prerequisites,
   onPrerequisitesCheck,
+  isCompleted,
+  courseName = "",
 }) {
   const navigate = useNavigate();
   const [prerequisiteMet, setPrerequisiteMet] = useState(true);
@@ -53,10 +56,14 @@ function Card({
     };
 
     checkIfPrerequisitesMet();
-  }, [prerequisites, id]);
+  }, [prerequisites, id, onPrerequisitesCheck]);
 
   const handleClick = () => {
-    navigate(`/${route}/${id}`, { state: { title, description } });
+    if (route === "module") {
+      navigate(`/module/${id}`, { state: { title, description, courseName } });
+    } else {
+      navigate(`/course/${id}`, { state: { title, description } });
+    }
   };
 
   if (loading) return <div>Loading...</div>;
@@ -72,7 +79,12 @@ function Card({
         <div className="icon">
           <BookIcon />
         </div>{" "}
-        {title}
+        {title}{" "}
+        {isCompleted && (
+          <div>
+            <CheckIcon sx={{ color: "rgb(33, 230, 33)", marginLeft: "42%"}} />
+          </div>
+        )}
       </div>
       <div className="description">{description}</div>
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import "./Test.css";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
@@ -7,24 +7,29 @@ import {
   getTestByCourseName,
   getTestByModuleName,
 } from "../../services/TestService";
-import Button from "@mui/material/Button";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CheckIcon from "@mui/icons-material/Check";
 import Question from "../../components/question/Question";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+} from "@mui/material";
 
 function Test() {
   const { id } = useParams(); // Extract the id from the URL
   const location = useLocation();
   const navigate = useNavigate();
-  const type = location.state || {};
+  const { type, courseName, advice } = useMemo(
+    () => location.state || {},
+    [location.state]
+  );
 
   const [test, setTest] = useState({});
   const [loading, setLoading] = useState(true);
@@ -32,6 +37,7 @@ function Test() {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
   const [answers, setAnswers] = useState({});
+  const [shuffledToOriginalMap, setShuffledToOriginalMap] = useState([]);
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -52,12 +58,62 @@ function Test() {
     const fetchTest = async () => {
       try {
         let data = {};
-        if (type.type === "course") {
+        if (type === "course") {
           data = await getTestByCourseName(id);
         } else {
           data = await getTestByModuleName(id);
         }
-        setTest(data);
+
+        const savedTestName = localStorage.getItem("testName");
+        const savedShuffledQuestions = localStorage.getItem("shuffledQuestions");
+        const savedShuffledToOriginalMap = localStorage.getItem("shuffledToOriginalMap");
+          
+        if (savedTestName !== data.name || !savedShuffledQuestions) {
+          // Shuffle questions only if the test is being taken for the first time or retaken
+          const originalQuestions = data.questions;
+          const shuffledQuestions = shuffleArray(data.questions);
+
+          // const shuffledToOriginalMap = shuffledQuestions.map(
+          //   (question, _) =>
+          //     originalQuestions.findIndex((q) => q === question)
+          // );
+
+          const shuffledToOriginalMap = shuffledQuestions.map(
+            (_, index) =>
+            originalQuestions.findIndex((q) => q === shuffledQuestions[index])
+          );
+
+          setTest({
+            ...data,
+            questions: shuffledQuestions,
+          });
+
+          // Save shuffled questions and mapping
+          localStorage.setItem(
+            "shuffledQuestions",
+            JSON.stringify(shuffledQuestions)
+          );
+          localStorage.setItem(
+            "shuffledToOriginalMap",
+            JSON.stringify(shuffledToOriginalMap)
+          );
+          localStorage.setItem("testName", data.name);
+
+          localStorage.removeItem("currentQuestionIndex");
+          localStorage.removeItem("answers");
+          setCurrentQuestionIndex(1);
+          setAnswers({});
+        } else {
+          // Use saved shuffled questions and mapping
+          setTest({
+            ...data,
+            questions: JSON.parse(savedShuffledQuestions),
+          });
+
+          // Restore the mapping
+          setShuffledToOriginalMap(JSON.parse(savedShuffledToOriginalMap));
+        }
+
         setLoading(false);
       } catch (err) {
         setError(`Error while fetching the test information: ${err.message}`);
@@ -66,30 +122,30 @@ function Test() {
     };
 
     fetchTest();
-  }, [id, type]);
+  }, [id, type, courseName, test.name]);
 
   // Check if the test name from localStorage matches the fetched test name
-  useEffect(() => {
-    const savedTestName = localStorage.getItem("testName");
+  // useEffect(() => {
+  //   const savedTestName = localStorage.getItem("testName");
 
-    if (test.name) {
-      if (savedTestName === undefined || savedTestName === null) {
-        localStorage.setItem("testName", test.name);
-      } else if (savedTestName !== test.name) {
-        localStorage.removeItem("currentQuestionIndex");
-        localStorage.removeItem("answers");
-        localStorage.setItem("testName", test.name);
-        setCurrentQuestionIndex(1);
-        setAnswers({});
-      }
-    }
-  }, [test.name]);
+  //   if (test.name) {
+  //     if (savedTestName === undefined || savedTestName === null) {
+  //       localStorage.setItem("testName", test.name);
+  //     } else if (savedTestName !== test.name) {
+  //       localStorage.removeItem("currentQuestionIndex");
+  //       localStorage.removeItem("answers");
+  //       localStorage.setItem("testName", test.name);
+  //       setCurrentQuestionIndex(1);
+  //       setAnswers({});
+  //     }
+  //   }
+  // }, [test.name]);
 
   useEffect(() => {
-    if (currentQuestionIndex > 1) {
+    if (currentQuestionIndex >= 1 && !isEmpty(test)) {
       localStorage.setItem("currentQuestionIndex", currentQuestionIndex);
     }
-  }, [currentQuestionIndex]);
+  }, [currentQuestionIndex, test]);
 
   const isEmpty = (obj) =>
     Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -99,6 +155,25 @@ function Test() {
       localStorage.setItem("answers", JSON.stringify(answers));
     }
   }, [answers]);
+
+  const shuffleArray = (array) => {
+    let shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  const reorderAnswers = (shuffledAnswers, map) => {
+    const reordered = {};
+    map.forEach((originalIndex, shuffledIndex) => {
+      if (shuffledAnswers[shuffledIndex] !== undefined) {
+        reordered[originalIndex] = shuffledAnswers[shuffledIndex];
+      }
+    });
+    return reordered;
+  };
 
   const getTestPassageCriteria = () => {
     if (test.pass_criteria?.number_of_correct_answers_required > 0) {
@@ -137,19 +212,73 @@ function Test() {
     setOpenDialog(false);
     localStorage.removeItem("currentQuestionIndex");
     localStorage.removeItem("answers");
-    
-    let data = {}
-    if (type.type === "course") {
-      data = await completeTestFromCourse(id, answers);
-    }
-    else {
-      data = await completeTestFromModule(id, answers);
+    localStorage.removeItem("shuffledQuestions");
+    localStorage.removeItem("shuffledToOriginalMap");
+    localStorage.removeItem("testName");
+
+    const correctAnswers = getCorrectAnswers();
+    // Reorder answers before navigation
+    const reorderedAnswers = reorderAnswers(answers, shuffledToOriginalMap);
+
+    let data = {};
+    if (type === "course") {
+      data = await completeTestFromCourse(id, reorderedAnswers);
+    } else {
+      data = await completeTestFromModule(id, reorderedAnswers);
     }
 
     navigate(`/${id}/test/test-result`, {
-      state: { result: data, pass_criteria: test.pass_criteria },
+      state: {
+        result: data,
+        pass_criteria: test.pass_criteria,
+        type: type,
+        courseName: courseName,
+        correctAnswers: correctAnswers,
+        advice: advice,
+      },
     });
   };
+
+  const getCorrectAnswers = () => {
+    const result = [];
+
+    for (const question of test.questions) {
+      if (question.question_type.type === "NumberQuestion") {
+        result.push({
+          [question.question_text]: question.question_type.answer,
+        });
+      } else if (question.question_type.type === "TrueFalseQuestion") {
+        result.push({
+          [question.question_text]: question.question_type.answer,
+        });
+      } else if (question.question_type.type === "MultipleChoiceQuestion") {
+        const corrAns = [];
+        for (const ans of question.question_type.answers) {
+          if (ans.is_correct) {
+            corrAns.push(ans.text);
+          }
+        }
+        result.push({
+          [question.question_text]: corrAns,
+        });
+      } else if (question.question_type.type === "OpenEndedQuestion") {
+        result.push({
+          [question.question_text]: question.question_type.answer.text,
+        });
+      } else {
+        for (const ans1 of question.question_type.answers) {
+          if (ans1.is_correct) {
+            result.push({
+              [question.question_text]: ans1.text,
+            });
+            break;
+          }
+        }
+      }
+    }
+
+    return result
+  }
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
