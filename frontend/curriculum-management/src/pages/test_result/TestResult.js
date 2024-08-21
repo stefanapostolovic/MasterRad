@@ -159,8 +159,20 @@ const TestResult = () => {
               }}
             >
               <Typography variant="body1" sx={{ marginRight: "3%" }}>
-                <b>Number of Test Attempts:</b>{" "}
-                {userStatistics.number_of_test_attempts}
+                <b>Number of Test Attempts:</b>
+                {userStatistics.test_attempts !== undefined ? (
+                  <ul>
+                    {Object.entries(userStatistics.test_attempts).map(
+                      ([testName, attempts]) => (
+                        <li key={testName}>
+                          {`${testName} - ${attempts}`}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                ) : (
+                  "N/A"
+                )}
               </Typography>
               <Typography variant="body1" sx={{ marginRight: "3%" }}>
                 <b>Average Test Performance:</b>{" "}
