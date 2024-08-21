@@ -33,17 +33,21 @@ class Course:
     self.is_completed = True
   
   def get_user_statistics(self):
-    number_of_test_attempts = 0
+    test_attempts = {}
+    # Track the number of attempts for the main test
+    test_attempts[self.test.name] = self.test.number_of_attempts
+    
     average_test_performance = 0.0
     
-    number_of_test_attempts += self.test.number_of_attempts
     for score in self.test.score_percentages:
       average_test_performance += score
     
     best_scores_per_module = []
     
     for module in self.modules:
-      number_of_test_attempts += module.test.number_of_attempts
+      # Track the number of attempts for each module test
+      test_attempts[module.test.name] = module.test.number_of_attempts
+      
       best_test_score = module.test.score_percentages[0]
       
       for score1 in module.test.score_percentages:          
@@ -57,7 +61,7 @@ class Course:
             "best_score": best_test_score
         })
     
-    average_test_performance = average_test_performance / number_of_test_attempts
+    average_test_performance /= sum(test_attempts.values())
     
     # Sort the best scores by best_score in descending order
     best_scores_per_module.sort(key=lambda x: x["best_score"], reverse=True)
@@ -69,7 +73,7 @@ class Course:
     worst_module = best_scores_per_module[-1]["module_name"]
     worst_module_performance = best_scores_per_module[-1]["best_score"]
     
-    return {"number_of_test_attempts": number_of_test_attempts, "average_test_performance": average_test_performance, "best_module": best_module, "best_module_performance": best_module_performance, "worst_module": worst_module, "worst_module_performance": worst_module_performance}
+    return {"test_attempts": test_attempts, "average_test_performance": average_test_performance, "best_module": best_module, "best_module_performance": best_module_performance, "worst_module": worst_module, "worst_module_performance": worst_module_performance}
     
   def to_dict(self, seen=None):
     if seen is None:
