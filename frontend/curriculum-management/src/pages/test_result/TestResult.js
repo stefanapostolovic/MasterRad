@@ -37,7 +37,7 @@ const TestResult = () => {
   const retakeTest = () => {
     const pathSegments = location.pathname.split("/");
     const nodeName = pathSegments[1]
-    navigate(`/${nodeName}/test`, { state: { type, courseName } });
+    navigate(`/${nodeName}/test`, { state: { type, courseName, advice } });
   }
 
   const goBack = () => {

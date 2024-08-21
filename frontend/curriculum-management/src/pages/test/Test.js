@@ -73,11 +73,6 @@ function Test() {
           const originalQuestions = data.questions;
           const shuffledQuestions = shuffleArray(data.questions);
 
-          // const shuffledToOriginalMap = shuffledQuestions.map(
-          //   (question, _) =>
-          //     originalQuestions.findIndex((q) => q === question)
-          // );
-
           const shuffledToOriginalMap = shuffledQuestions.map(
             (_, index) =>
             originalQuestions.findIndex((q) => q === shuffledQuestions[index])
@@ -123,23 +118,6 @@ function Test() {
 
     fetchTest();
   }, [id, type, courseName, test.name]);
-
-  // Check if the test name from localStorage matches the fetched test name
-  // useEffect(() => {
-  //   const savedTestName = localStorage.getItem("testName");
-
-  //   if (test.name) {
-  //     if (savedTestName === undefined || savedTestName === null) {
-  //       localStorage.setItem("testName", test.name);
-  //     } else if (savedTestName !== test.name) {
-  //       localStorage.removeItem("currentQuestionIndex");
-  //       localStorage.removeItem("answers");
-  //       localStorage.setItem("testName", test.name);
-  //       setCurrentQuestionIndex(1);
-  //       setAnswers({});
-  //     }
-  //   }
-  // }, [test.name]);
 
   useEffect(() => {
     if (currentQuestionIndex >= 1 && !isEmpty(test)) {
