@@ -1,5 +1,5 @@
 import "./TestResult.css"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -16,6 +16,7 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
+import { getUserStatisticsForCourse } from "../../services/CourseService";
 
 const TestResult = () => {
   const navigate = useNavigate();
@@ -25,6 +26,25 @@ const TestResult = () => {
   const { test_result, points, num_of_correct_answ, percentage } = result;
 
   const [openCheckAnswersDialog, setOpenCheckAnswersDialog] = useState(false);
+  
+  const [userStatistics, setUserStatistics] = useState({})
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (type && test_result && type === "course" && test_result === "passed") {
+      const fetchStatistics = async () => {
+        try {
+          const data = await getUserStatisticsForCourse(courseName);
+          console.log("Fetched user statistics:", data); // Add this line
+          setUserStatistics(data);
+        } catch (err) {
+          setError(`Error while fetching the user statistics: ${err.message}`);
+        }
+      };
+
+      fetchStatistics();
+    }
+  }, [courseName, test_result, type]);
 
   const handleClickOpen = () => {
     setOpenCheckAnswersDialog(true);
@@ -56,6 +76,8 @@ const TestResult = () => {
   if (!result) {
     return <div>No result data available.</div>;
   }
+
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="result-container">
@@ -122,6 +144,44 @@ const TestResult = () => {
           </Typography>
         </CardContent>
       </Card>
+      {type === "course" && test_result === "passed" && (
+        <div>
+          <div className="congradulations-message">You Passed The Course!</div>
+          <div className="statistical-data-row">
+            <Card
+              sx={{
+                backgroundColor: "#2b2b2b",
+                color: "white",
+                border: "solid 1px rgb(81, 81, 81)",
+                borderRadius: "4px",
+                padding: "10px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="body1" sx={{ marginRight: "3%" }}>
+                <b>Number of Test Attempts:</b>{" "}
+                {userStatistics.number_of_test_attempts}
+              </Typography>
+              <Typography variant="body1" sx={{ marginRight: "3%" }}>
+                <b>Average Test Performance:</b>{" "}
+                {userStatistics.average_test_performance !== undefined
+                  ? userStatistics.average_test_performance.toFixed(2)
+                  : "N/A"}
+                %
+              </Typography>
+              <Typography variant="body1" sx={{ marginRight: "3%" }}>
+                <b>Best Module Performance:</b> {userStatistics.best_module} -{" "}
+                {userStatistics.best_module_performance}%
+              </Typography>
+              <Typography variant="body1">
+                <b>Worst Module Performance:</b> {userStatistics.worst_module} -{" "}
+                {userStatistics.worst_module_performance}%
+              </Typography>
+            </Card>
+          </div>
+        </div>
+      )}
       {test_result === "failed" && (
         <div>
           <div className="tips">

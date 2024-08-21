@@ -53,3 +53,26 @@
   width: 500px;
   text-align: center;
 }
+
+.statistical-data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+  margin-top: -7%;
+  margin-bottom: 7%;
+}
+
+.statistical-data-row .MuiCard-root {
+  display: flex;
+  justify-content: space-between;
+  width: auto;
+  padding: 10px;
+}
+
+.congradulations-message {
+  margin-top: -10%;
+  margin-bottom: 10%;
+  text-align: center;
+  font-size: x-large;
+}
