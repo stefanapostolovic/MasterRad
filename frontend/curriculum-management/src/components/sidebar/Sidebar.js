@@ -49,10 +49,15 @@ function Sidebar() {
     const pathSegments = location.pathname.split("/");
     if (location.pathname === "/") {
       setClickedCourseName(""); // Hide course name on the home page
+      localStorage.removeItem("clickedCourseName");
     } else if (pathSegments.includes("course")) {
       setClickedCourseName(decodeURIComponent(pathSegments[2])); // Set course name from the URL
+      localStorage.setItem("clickedCourseName", clickedCourseName);
+    } else {
+      const savedClickedCourseName = localStorage.getItem("clickedCourseName");
+      if (savedClickedCourseName) setClickedCourseName(savedClickedCourseName);
     }
-  }, [location.pathname]);
+  }, [location.pathname, clickedCourseName]);
 
   useEffect(() => {
     const fetchCourseNames = async () => {
