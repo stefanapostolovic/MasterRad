@@ -6,6 +6,8 @@ class Test:
     self.name = name
     self.questions = self.init_questions(questions)
     self.pass_criteria = self.init_pass_criteria(pass_criteria)
+    self.number_of_attempts = 0
+    self.score_percentages = []
     
   def init_questions(self, questions):
     return_value = []

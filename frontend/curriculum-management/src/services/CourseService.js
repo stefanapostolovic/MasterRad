@@ -63,3 +63,17 @@ export const checkIfCanTakeTest = async (courseName) => {
     throw error;
   }
 };
+
+export const getUserStatisticsForCourse = async (courseName) => {
+  try {
+    const response = await apiClient.get(
+      `/testResult/userStatistics/${courseName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error while fetcheng user statistics for the course: ${courseName}`
+    );
+    throw error;
+  }
+};

@@ -41,6 +41,54 @@ Courses:
           PassCriteria: percentage_required: 85
 
         Advice: "Advice module 1"
+      M:
+        Name: "Dizajn vođen domenom - Taktike"
+        Description: 
+        "Cilj: Domain-Driven Design is just object-oriented design done right.
+
+        Dizajn softvera koji je vođen biznis domenom nam pomaže da proizvedemo moćno rešenje. Takvo rešenje: (1) ispunjava trenutne zahteve biznisa, (2) sadrži potencijal da jednostavno podrži nove zahteve i (3) proizvedi neočekivanu vrednost našim klijentima.
+
+        Da bismo gradili softver po DDD-u, neophodno je da imamo relativno snažno poznavanje principa čistog koda i prakse inženjeringa zahteva. Nad tim temeljem dodajemo niz takozvanih strateških i taktičkih šablona koje definiše oblast DDD-a. Strateški šabloni su bliži praksi inženjeringa zahteva i arhitekture softverskog rešenja. Taktički šabloni su bliži kodu i bave se dizajnom klasa i njihovih relacija. U sklopu ove lekcije ćemo da načnemo strateške šablone, no glavni fokus će nam biti na taktičkim šablonima."
+
+        Text content: 
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam libero, posuere et vulputate vel, finibus a erat. Aliquam erat volutpat. Morbi eget erat et lacus efficitur porta non et nulla. Ut at tortor in tortor ornare pellentesque. Donec non lectus ac nisi volutpat lacinia sit amet malesuada turpis. Nunc gravida accumsan ligula, nec dictum ex tincidunt vitae. Donec molestie quam vel sagittis rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam lacinia non eros non consequat. Fusce dignissim diam lobortis lacus dictum lacinia. Fusce ac fringilla enim, vel pharetra augue. In ac urna placerat, ullamcorper lacus vitae, interdum nunc. Nam consequat, neque vitae pulvinar pulvinar, nisi odio scelerisque enim, sed sollicitudin lectus eros lacinia augue.
+
+        Quisque vehicula rhoncus consequat. Suspendisse feugiat in urna eu commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum dignissim mauris et augue rutrum dictum. Sed ornare ex et ipsum viverra sagittis. Nunc euismod bibendum mi, nec vestibulum ligula viverra sed. Nullam suscipit, ipsum non venenatis vehicula, lectus ante maximus ante, eu dignissim lacus lorem quis diam. Phasellus interdum neque lacinia tortor accumsan fringilla. Phasellus faucibus sodales malesuada. Pellentesque porttitor porttitor consectetur. Cras convallis velit vel urna finibus, vitae blandit sapien hendrerit. Cras varius, mauris at cursus fringilla, mi sapien tristique est, in convallis risus metus vel lacus. Nullam quis mollis tortor. Ut eget eros libero"
+
+        Images: 
+          Url: "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Description: "Opis slike 1"
+
+          Url: "https://marketplace.canva.com/EAFNsV8XtFc/1/0/1067w/canva-white-modern-recipe-card-g0ij-n11PwM.jpg"
+          Description: "Opis slike 2"
+
+        Videos:
+          Url: "https://www.youtube.com/watch?v=9NYfm2yKVJQ"
+          Description: "Opis videa 1"
+
+          Url: "https://www.youtube.com/watch?v=DEuJ4Xq9UAI"
+          Description: "Opis videa 2"
+
+        Test:
+          Name: "ModulTest2"
+          Questions:
+            Q:
+              text: "Kurs 1 Modul 1 tekst"
+              type: open_ended
+              Answer: - "Kurs 1 modul 1 odgovor"
+              points: 6
+            Q:
+              text: "Kurs 1 Modul 2 tekst"
+              type: single_choice
+              Answers:
+                - [x] "kurs1 modul2 tacan odgovor"
+                - [ ] "kurs1 modul2 netacan odgovor"
+          points: 3
+          negativePoints: 1.5
+          PassCriteria: percentage_required: 20
+
+        Advice: "Advice module 2"
+        Prerequisites: module: "Agilno planiranje i razvoj softvera"
     
     Test:
       Name: "KursTest1"

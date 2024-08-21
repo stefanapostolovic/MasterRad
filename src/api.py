@@ -144,26 +144,6 @@ def complete_course(course_name: str, update_course_request: CompleteCourseReque
   
   return {"message": "Course completed successfully", "course": course.name}
 
-# @router.get("/module/{course_name}/{module_name}", response_model=None)
-# def get_module_for_course_by_name(course_name: str, module_name: str):
-  
-#   course = curric.get_course_by_name(course_name)
-#   if course is None:
-#     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
-  
-#   response = course.get_module_by_name(module_name)
-#   if response is None:
-#     raise HTTPException(status_code=404, detail=f"Module with the name {module_name} in the course {course_name} not found.")
-  
-#   try:
-#     json_response = jsonable_encoder(response.to_dict())
-#   except Exception as e:
-#     logging.exception("Exception: {}".format(type(e).__name__))
-#     logging.exception("Exception message: {}".format(type(e)))
-#     return
-  
-#   return JSONResponse(content=json_response)
-
 @router.get("/module/{module_name}", response_model=None)
 def get_module_by_name(module_name: str):
   canAccess = check_if_can_access_module(module_name)
@@ -302,6 +282,8 @@ def complete_test_from_course(request: CompleteTestRequest):
     raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
   
   response = course.test.grade_test(answers)
+  course.test.number_of_attempts += 1
+  course.test.score_percentages.append(response["percentage"])
   
   if response["test_result"] == "passed":
     course.complete_course()
@@ -325,9 +307,28 @@ def complete_test_from_module(request: CompleteTestRequest):
     raise HTTPException(status_code=404, detail=f"Module with the name {module_name} not found.")
   
   response = module.test.grade_test(answers)
+  module.test.number_of_attempts += 1
+  module.test.score_percentages.append(response["percentage"])
   
   if response["test_result"] == "passed":
     module.complete_module()
+  
+  try:
+    json_response = jsonable_encoder(response)
+  except Exception as e:
+    logging.exception("Exception: {}".format(type(e).__name__))
+    logging.exception("Exception message: {}".format(type(e)))
+    return
+  
+  return JSONResponse(content=json_response)
+
+@router.get("/testResult/userStatistics/{course_name}", response_model=None)
+def getUserStatisticsForCourse(course_name: str):
+  course = curric.get_course_by_name(course_name)
+  if course is None:
+    raise HTTPException(status_code=404, detail=f"Course with the name {course_name} not found.")
+  
+  response = course.get_user_statistics()
   
   try:
     json_response = jsonable_encoder(response)
