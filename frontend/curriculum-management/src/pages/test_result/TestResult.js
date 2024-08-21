@@ -35,7 +35,6 @@ const TestResult = () => {
       const fetchStatistics = async () => {
         try {
           const data = await getUserStatisticsForCourse(courseName);
-          console.log("Fetched user statistics:", data); // Add this line
           setUserStatistics(data);
         } catch (err) {
           setError(`Error while fetching the user statistics: ${err.message}`);

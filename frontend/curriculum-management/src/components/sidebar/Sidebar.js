@@ -7,8 +7,11 @@ import { checkIfCanAccessCourse, getAllCourseNames } from "../../services/Course
 import Divider from "@mui/material/Divider";
 import BookIcon from "@mui/icons-material/Book";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import { useAccessibility } from "../../context/AccessibilityContext";
 
 function Sidebar() {
+  const { triggerRefresh } = useAccessibility();
+
   const navigate = useNavigate();
   const location = useLocation();
   const [clickedCourseName, setClickedCourseName] = useState("");
@@ -93,7 +96,7 @@ function Sidebar() {
 
       checkAccess();
     }
-  }, [courseNames]);
+  }, [courseNames, triggerRefresh]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;

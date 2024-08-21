@@ -21,6 +21,7 @@ import {
   DialogActions,
   Typography,
 } from "@mui/material";
+import { useAccessibility } from "../../context/AccessibilityContext";
 
 function Test() {
   const { id } = useParams(); // Extract the id from the URL
@@ -186,6 +187,8 @@ function Test() {
     setOpenDialog(true);
   };
 
+  const { refreshAccessibility } = useAccessibility();
+
   const handleConfirmFinish = async () => {
     setOpenDialog(false);
     localStorage.removeItem("currentQuestionIndex");
@@ -204,6 +207,9 @@ function Test() {
     } else {
       data = await completeTestFromModule(id, reorderedAnswers);
     }
+
+    // Trigger refresh for the sidebar
+    refreshAccessibility();
 
     navigate(`/${id}/test/test-result`, {
       state: {
