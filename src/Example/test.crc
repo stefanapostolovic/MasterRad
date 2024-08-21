@@ -31,7 +31,7 @@ Courses:
           Description: "Opis videa 2"
 
         Test:
-          Name: "ModulTest1"
+          Name: "Kurs1 Modul1 Test"
           Questions:
             Q:
               text: "Modul tekst1"
@@ -70,7 +70,7 @@ Courses:
           Description: "Opis videa 2"
 
         Test:
-          Name: "ModulTest2"
+          Name: "Kurs1 Modul2 Test"
           Questions:
             Q:
               text: "Kurs 1 Modul 1 tekst"
@@ -163,7 +163,7 @@ Courses:
           Description: "Opis videa 2"
           
         Test:
-          Name: "ModulTest2"
+          Name: "Kurs 2 Modul1 Test"
           Questions:
             Q:
               text: "Modul tekst2"
