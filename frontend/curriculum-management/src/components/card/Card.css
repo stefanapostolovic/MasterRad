@@ -11,7 +11,10 @@
   max-width: 600px;
   min-width: 200px;
   min-height: 155px;
-  max-height: 280px;
+  max-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card:hover {
@@ -27,6 +30,11 @@
 .description {
   text-align: justify;
   margin-top: 8%;
+  overflow: hidden; /* Hide the overflowed text */
+  text-overflow: ellipsis; /* Show ellipsis if the text overflows */
+  display: -webkit-box; /* Required for truncating multiple lines */
+  -webkit-line-clamp: 7; /* Limit the description to 7 lines */
+  -webkit-box-orient: vertical; /* Required for truncating multiple lines*/
 }
 
 .icon {
@@ -46,8 +54,11 @@
   max-width: 600px;
   min-width: 200px;
   min-height: 155px;
-  max-height: 280px;
+  max-height: 260px;
   cursor: not-allowed;
   opacity: 0.5; /* Makes the card look disabled */
   pointer-events: none; /* Prevents clicks on the card */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
