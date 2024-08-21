@@ -34,89 +34,6 @@ def init_metamodel(path=None):
   
   return crc_model
 
-#TEMP
-def print_model(model):
-  curr = curriculum.Curriculum(model.name, model.courses)
-  
-  print("************************Curriculum model:************************")
-  print("-Curriculum name: ", curr.name) 
-  for crc in curr.courses:
-    print("--Course info: ")
-    print("--Course name: ", crc.name)
-    print("--Course description: ", crc.description)
-    print("--Course is completed: ", crc.is_completed)
-    print("---Modules for: ", crc.name)
-    for m in crc.modules:
-      print("---Module name: ", m.name)
-      print("---Module description: ", m.description)
-      print("---Module text: ", m.text)
-      print("---Module images: ", m.images)
-      print("---Module videos: ", m.videos)
-      print("---Module is completed: ", m.is_completed)
-      print("----Module test info:")
-      print("----Test name: ", m.test.name)
-      print("-----Test questions info:")
-      for q in m.test.questions:
-        print("-----Question text: ", q.question_text)
-        print_question_type(q.question_type)
-        print("----Question points: ", q.points)
-        print("----Question negative points: ", q.negative_points)
-      print("----Test pass criteria: ")
-      print_pass_criteria(m.test.pass_criteria)
-      print("---Module advice: ", m.advice)
-      print("---Module prerequisites: ")
-      for pr in m.prerequisites:
-        print_prerequisite(pr)
-    print("----Test for: ", crc.name)
-    print("----Test name: ", crc.test.name)
-    print("----Test questions for: ", crc.test.name)
-    for q1 in crc.test.questions:
-      print("----Question name: ", q1.question_text)
-      print_question_type(q1.question_type)
-      print("----Question points: ", q1.points)
-      print("----Question negative points: ", q1.negative_points)
-    print("----Test pass criteria: ")
-    print_pass_criteria(crc.test.pass_criteria)
-    print("----Course advice: ", crc.advice)
-    print("---Course prerequisites: ")
-    for pr1 in crc.prerequisites:
-      print_prerequisite(pr1)
-      
-def print_prerequisite(prerequisite):
-  try:
-    print("---", prerequisite.course_name)
-  except Exception as e:
-    print("---", prerequisite.module_name)
-
-def print_pass_criteria(pass_criteria):
-  if pass_criteria.percentage_required != 0.0:
-    print("----Percentage required: ", pass_criteria.percentage_required)
-  elif pass_criteria.number_of_correct_answers_required != 0:
-    print("----Number of correct answers required: ", pass_criteria.number_of_correct_answers_required)
-  else:
-    print("----Points required: ", pass_criteria.points_required)
-
-def print_question_type(question_type):
-  print("----Question type: ", question_type.__class__.__name__)
-  
-  if question_type.__class__.__name__ == "MultipleChoiceQuestion":
-    print("-----Question answers:")
-    for a in question_type.answers:
-      print("-----Answer text: ", a.text)
-      print("-----Answer is correct: ", a.is_correct)
-    print("----Question accepts partial answers: ", question_type.accept_partial_answer)
-  elif question_type.__class__.__name__ == "NumberQuestion":
-    print("-----Question answer: ", question_type.answer)
-  elif question_type.__class__.__name__ == "OpenEndedQuestion":
-    print("-----Question answer text: ", question_type.answer.text)
-    print("-----Question answer is correct: ", question_type.answer.is_correct)
-  elif question_type.__class__.__name__ == "SingleChoiceQuestion":
-    for a1 in question_type.answers:
-      print("-----Answer text: ", a1.text)
-      print("-----Answer is correct: ", a1.is_correct)
-  else:
-    print("-----Question answer: ", question_type.answer)
-
 #OBJECT VALIDATORS
 def course_validator(course):
   validate_course_depenencies(course)
@@ -190,6 +107,10 @@ def validate_points_required_criteria(test):
 
 #MODEL VALIDATORS
 def model_validator(model, metamodel):
+    is_unique, message = validate_name_uniqueness(model)
+    if (is_unique is False):
+      raise TextXSemanticError(message)
+    
     for course in model.courses:
         check_for_cycles(course, metamodel)
 
@@ -234,11 +155,33 @@ def has_cycle(node, visited, stack, metamodel):
     stack.remove(node)
     return False
 
-# def get_course_by_name(model, name):
-#     return next((course for course in model.courses if course.name == name), None)
+def validate_name_uniqueness(model):
+  course_names = set()
+  module_names = set()
+  test_names = set()
 
-# def get_module_by_name(courses, name):
-#     return next((module for course in courses for module in course.modules if module.name == name), None)
+  for course in model.courses:
+    # Check if course name is unique
+    if course.name in course_names:
+      return False, f"Duplicate course name found: {course.name}"
+    course_names.add(course.name)
+
+    if course.test.name in test_names:
+      return False, f"Duplicate test name found: {course.test.name}"
+    test_names.add(course.test.name)
+    
+    for module in course.modules:
+      # Check if module name is unique within the entire curriculum
+      if module.name in module_names:
+          return False, f"Duplicate module name found: {module.name}"
+      module_names.add(module.name)
+
+      # Check if test name is unique within the entire curriculum
+      if module.test.name in test_names:
+          return False, f"Duplicate test name found: {module.test.name}"
+      test_names.add(module.test.name)
+
+  return True, "All names are unique"
 
 @language('curriculum', '*.crc')
 def crc_parser():
