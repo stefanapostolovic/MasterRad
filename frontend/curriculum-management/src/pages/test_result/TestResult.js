@@ -57,6 +57,11 @@ const TestResult = () => {
     return <div>No result data available.</div>;
   }
 
+  const totalAttempts = 4
+  const averagePerformance = 76
+  const bestModuleName = "Modul 1"
+  const struggledModuleName = "Modul 2"
+
   return (
     <div className="result-container">
       <Card
@@ -122,6 +127,38 @@ const TestResult = () => {
           </Typography>
         </CardContent>
       </Card>
+      {type === "course" && (
+        <div>
+          <div className="congradulations-message">You Passed The Course!</div>
+          <div className="statistical-data-row">
+            <Card
+              sx={{
+                backgroundColor: "#2b2b2b",
+                color: "white",
+                border: "solid 1px rgb(81, 81, 81)",
+                borderRadius: "4px",
+                padding: "10px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="body1" sx={{ marginRight: "3%" }}>
+                <b>Number of Test Attempts:</b> {totalAttempts}
+              </Typography>
+              <Typography variant="body1" sx={{ marginRight: "3%" }}>
+                <b>Average Test Performance:</b> {averagePerformance.toFixed(2)}
+                %
+              </Typography>
+              <Typography variant="body1" sx={{ marginRight: "3%" }}>
+                <b>Best Module Performance:</b> {bestModuleName} - 91%
+              </Typography>
+              <Typography variant="body1">
+                <b>Worst Module Performance:</b> {struggledModuleName} - 34%
+              </Typography>
+            </Card>
+          </div>
+        </div>
+      )}
       {test_result === "failed" && (
         <div>
           <div className="tips">
