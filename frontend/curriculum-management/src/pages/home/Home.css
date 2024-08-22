@@ -1,0 +1,46 @@
+.home-page {
+  margin-left: 5%;
+  margin-top: -2%;
+  padding: 20px;
+}
+
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 6%;
+  margin-top: -1%;
+}
+
+.card-grid {
+  margin-top: 2%;
+  margin-left: -2%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.card-content {
+  width: 10px; /* Consistent width for all cards */
+  min-height: 200px; /* Ensures a minimum height, can be adjusted based on content */
+}
+
+.prerequisites-not-met {
+  margin-left: 3%;
+  color: red;
+  margin-top: 10px;
+}
+
+.prerequisites-not-met ul {
+  list-style-type: none; /* Removes bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.prerequisites-not-met li {
+  margin-bottom: 5px;
+  font-weight: bolder;
+}
+
+.header {
+  font-size: large;
+}

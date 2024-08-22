@@ -1,0 +1,121 @@
+Curriculum:
+  'Name:' name=STRING
+  'Courses:' courses+=Course
+;
+
+Course:
+  'C:'
+    'Name:' name=STRING
+    'Description:' description=STRING
+    'Modules:' modules+=Module
+    'Test:' test=Test
+    ('Advice:' advice=STRING)?
+    ('Prerequisites:' prerequisites*=Prerequisite)?
+;
+
+Module:
+  'M:'
+    'Name:' name=STRING
+    'Description:' description=STRING
+    ('Text content:' text=STRING
+    ('Images:' images+=Image)?
+    ('Videos:' videos+=Video)?)#
+    'Test:' test=Test
+    ('Advice:' advice=STRING)?
+    ('Prerequisites:' prerequisites*=Prerequisite)?
+;
+
+Prerequisite:
+  CoursePrerequisite | ModulePrerequisite
+;
+
+CoursePrerequisite:
+  'course:' course_name=[Course|STRING]
+;
+
+ModulePrerequisite:
+  'module:' module_name=[Module|STRING]
+;
+
+Image:
+  'Url:' url=ImageURL
+  'Description:' description=STRING
+;
+
+ImageURL:
+  '"'- IMG_URL_BASE '"'- | '\''- IMG_URL_BASE '\''-
+;
+
+IMG_URL_BASE: /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)/
+;
+
+Video:
+  'Url:' url=VideoURL
+  'Description:' description=STRING
+;
+
+VideoURL:
+  '"'- Video_URL_BASE '"'- | '\''- Video_URL_BASE '\''-
+;
+
+Video_URL_BASE:
+  /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+;
+
+Test:
+  'Name:' name=STRING
+  'Questions:' questions+=Question
+  'PassCriteria:' pass_criteria=PassCriteria
+;
+
+PassCriteria:
+  ('percentage_required:' percentage_required=FLOAT) |
+  ('number_of_correct_answers_required:' number_of_correct_answers_required=INT) |
+  ('points_required:' points_required=FLOAT)
+;
+
+Question:
+  'Q:' 
+    'text:' question_text=STRING
+    'type:' question_type=QuestionType
+    'points:' points=FLOAT
+    ('negativePoints:' negative_points=FLOAT)?
+;
+
+QuestionType:
+  OpenEndedQuestion | SingleChoiceQuestion | MultipleChoiceQuestion | TrueFalseQuestion | NumberQuestion
+;
+
+OpenEndedQuestion:
+  type='open_ended'
+  'Answer:' answer=Answer
+;
+
+SingleChoiceQuestion:
+  type='single_choice'
+  'Answers:' answers+=Answer
+;
+
+MultipleChoiceQuestion:
+  type='multiple_choice'
+  'Answers:' answers+=Answer
+  accept_partial_answer?='accept_partial_answer'
+;
+
+TrueFalseQuestion:
+  type='true_false'
+  'Answer:' answer=TrueFalseAnswer
+;
+
+TrueFalseAnswer:
+  'true' | 'false'
+;
+
+NumberQuestion:
+  type='number'
+  'Answer:' answer=FLOAT
+;
+
+Answer:
+  '-' (('[' ']') | ('[' is_correct?='x' ']'))? text=STRING
+;

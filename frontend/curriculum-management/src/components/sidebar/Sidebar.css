@@ -1,0 +1,71 @@
+.sidebar {
+  background-color: #192637;
+  padding: 15px;
+  width: 3%;
+  height: 100vh; /* Ensures the sidebar fills the entire viewport height */
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-logo {
+  width: 52px; /* Adjust the size as needed */
+  margin-bottom: 20px;
+}
+
+body {
+  color: white;
+}
+
+.iconButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: medium;
+  text-align: center;
+}
+
+.iconTextButton {
+  margin-top: -15%;
+  padding-top: 20%;
+  background-color: transparent;
+  border-radius: 6%;
+  width: 85px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: medium;
+  text-align: center;
+}
+
+.iconTextButton:hover {
+  background-color: #263953; /* Brighter background color on hover */
+}
+
+.paragraph {
+  margin-top: -2%;
+}
+
+.icon-paragraph {
+  margin-top: -2%;
+  color: #f5cb43;
+}
+
+.warning-message {
+  text-align: center;
+  color: red;
+}
+
+.course-name {
+  font-size: small;
+  overflow-wrap: break-word; /* Allows text to break and wrap to the next line */
+  word-wrap: break-word; /* Ensures long words break and wrap correctly */
+  text-align: center; /* Centers the text horizontally */
+  color: white;
+  margin: 0; /* Removes default margin */
+  padding: 0; /* Removes default padding */
+  max-width: 100%; /* Ensures the text container does not exceed the sidebar width */
+  margin-bottom: 20%;
+}

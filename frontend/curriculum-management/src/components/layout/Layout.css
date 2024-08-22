@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  min-height: 100vh; /* Ensures the layout fills the entire viewport height */
+  overflow: hidden; /* Prevents unnecessary scrollbars */
+}
+
+.main-content {
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto; /* Allows scrolling within the main content if necessary */
+  box-sizing: border-box; /* Ensures padding is included in the width/height calculation */
+}

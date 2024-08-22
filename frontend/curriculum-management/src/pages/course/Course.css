@@ -1,0 +1,58 @@
+.course-detail {
+  margin-left: 5%;
+  margin-top: -2%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.card-detail h1 {
+  margin-bottom: 10px;
+}
+
+.card-detail p {
+  margin-bottom: 20px;
+}
+
+.card-grid {
+  margin-top: 2%;
+  margin-left: -2%;
+  margin-bottom: 10%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  flex: 1;
+}
+
+.bottom-button {
+  margin-top: auto; /* Pushes the button to the bottom */
+  margin-bottom: 20px; /* Adds space below the button */
+  align-self: center; /* Centers the button horizontally */
+}
+
+.card-content {
+  width: 700px; /* Consistent width for all cards */
+  min-height: 200px; /* Ensures a minimum height, can be adjusted based on content */
+}
+
+.prerequisites-not-met {
+  margin-left: 3%;
+  color: red;
+  margin-top: 10px;
+}
+
+.prerequisites-not-met ul {
+  list-style-type: none; /* Removes bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.prerequisites-not-met li {
+  margin-bottom: 5px;
+  font-weight: bolder;
+}
+
+.header {
+  font-size: large;
+}
