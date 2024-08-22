@@ -158,22 +158,22 @@ const TestResult = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Typography variant="body1" sx={{ marginRight: "3%" }}>
-                <b>Number of Test Attempts:</b>
+              <div>
+                <Typography variant="body1" sx={{ marginRight: "3%" }}>
+                  <b>Number of Test Attempts:</b>
+                </Typography>
                 {userStatistics.test_attempts !== undefined ? (
                   <ul>
                     {Object.entries(userStatistics.test_attempts).map(
                       ([testName, attempts]) => (
-                        <li key={testName}>
-                          {`${testName} - ${attempts}`}
-                        </li>
+                        <li key={testName}>{`${testName} - ${attempts}`}</li>
                       )
                     )}
                   </ul>
                 ) : (
                   "N/A"
                 )}
-              </Typography>
+              </div>
               <Typography variant="body1" sx={{ marginRight: "3%" }}>
                 <b>Average Test Performance:</b>{" "}
                 {userStatistics.average_test_performance !== undefined
@@ -230,7 +230,7 @@ const TestResult = () => {
                       <Typography variant="body1">
                         <b>Question:</b> {question}
                       </Typography>
-                      <Typography variant="body1" component="div">
+                      <div>
                         <b>Answer:</b>{" "}
                         {Array.isArray(answer) ? (
                           <ul>
@@ -239,9 +239,11 @@ const TestResult = () => {
                             ))}
                           </ul>
                         ) : (
-                          answer.toString()
+                          <Typography variant="body1" component="span">
+                            {answer.toString()}
+                          </Typography>
                         )}
-                      </Typography>
+                      </div>
                     </div>
                   );
                 })}
@@ -298,7 +300,7 @@ const TestResult = () => {
                     <Typography variant="body1">
                       <b>Question:</b> {question}
                     </Typography>
-                    <Typography variant="body1" component="div">
+                    <div>
                       <b>Answer:</b>{" "}
                       {Array.isArray(answer) ? (
                         <ul>
@@ -307,9 +309,11 @@ const TestResult = () => {
                           ))}
                         </ul>
                       ) : (
-                        answer.toString()
+                        <Typography variant="body1" component="span">
+                          {answer.toString()}
+                        </Typography>
                       )}
-                    </Typography>
+                    </div>
                   </div>
                 );
               })}

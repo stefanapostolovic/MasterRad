@@ -18,6 +18,7 @@ Za pokretanje frontend aplikacije, uraditi sledeće:
 ```
 cd MasterRad
 cd frontend
+cd curriculum-management
 npm install
 npm start
 ```
