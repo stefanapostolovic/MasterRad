@@ -1,14 +1,30 @@
 from DSL_model import question
 from DSL_model import pass_criteria
+import random
+import math
 
 class Test:
   def __init__(self, name, questions, pass_criteria):
     self.name = name
-    self.questions = self.init_questions(questions)
+    self.all_questions = self.init_questions(questions)
     self.pass_criteria = self.init_pass_criteria(pass_criteria)
     self.number_of_attempts = 0
     self.score_percentages = []
+    self.questions = [] # Initialize an empty list for the subset of questions
+    self.set_new_question_subset()  # Call method to fetch initial question subset
+  
+  def set_new_question_subset(self):
+    """Fetches a new subset of questions."""
+    total_question_number = len(self.all_questions)
     
+    if total_question_number >= 6:
+      # Fetch a random subset (half of total questions)
+      subset_size = math.ceil(total_question_number / 2)
+      self.questions = random.sample(self.all_questions, subset_size)
+    else:
+      # If fewer than 6 questions, use all questions
+      self.questions = self.all_questions
+  
   def init_questions(self, questions):
     return_value = []
     for q in questions:
@@ -104,6 +120,10 @@ class Test:
       return num_of_correct_answ >= self.pass_criteria.number_of_correct_answers_required
     else:
       return points >= self.pass_criteria.points_required
+  
+  def retake_test(self):
+    """Reshuffles the questions when the user retakes the test."""
+    self.set_new_question_subset()
   
   def to_dict(self):
     return {
