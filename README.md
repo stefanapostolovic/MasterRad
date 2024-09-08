@@ -163,6 +163,18 @@ Courses:
           Answer: 20.0
           points: 7
           negativePoints: 2.1
+        Q:
+          text: "Kurs tekst2 dodatno pitanje 1"
+          type: number
+          Answer: 20.0
+          points: 7
+          negativePoints: 2.1
+        Q:
+          text: "Kurs tekst2 dodatno pitanje 2"
+          type: number
+          Answer: 20.0
+          points: 7
+          negativePoints: 2.1
       PassCriteria: number_of_correct_answers_required: 1
     
     Advice: "Advice course 1"
