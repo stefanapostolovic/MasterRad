@@ -1,6 +1,6 @@
 import "./TestResult.css"
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import ReplayIcon from "@mui/icons-material/Replay";
@@ -17,8 +17,10 @@ import {
   Divider,
 } from "@mui/material";
 import { getUserStatisticsForCourse } from "../../services/CourseService";
+import { retakeTestFromCourse, retakeTestFromModule } from "../../services/TestService";
 
 const TestResult = () => {
+  const { id } = useParams(); // Extract the id from the URL
   const navigate = useNavigate();
   const location = useLocation();
   const { result, pass_criteria, type, courseName, correctAnswers, advice } =
@@ -26,8 +28,8 @@ const TestResult = () => {
   const { test_result, points, num_of_correct_answ, percentage } = result;
 
   const [openCheckAnswersDialog, setOpenCheckAnswersDialog] = useState(false);
-  
-  const [userStatistics, setUserStatistics] = useState({})
+
+  const [userStatistics, setUserStatistics] = useState({});
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -53,24 +55,35 @@ const TestResult = () => {
     setOpenCheckAnswersDialog(false);
   };
 
-  const retakeTest = () => {
-    const pathSegments = location.pathname.split("/");
-    const nodeName = pathSegments[1]
-    navigate(`/${nodeName}/test`, { state: { type, courseName, advice } });
-  }
+  const retakeTest = async () => {
+    try {
+      if (type === "course") {
+        await retakeTestFromCourse(id);
+      }
+      else {
+        await retakeTestFromModule(id);
+      }
+
+      const pathSegments = location.pathname.split("/");
+      const nodeName = pathSegments[1];
+
+      navigate(`/${nodeName}/test`, { state: { type, courseName, advice } });
+    } catch (error) {
+      console.error("Error while retaking the test:", error);
+    }
+  };
 
   const goBack = () => {
     const pathSegments = location.pathname.split("/");
     const nodeName = pathSegments[1];
 
     if (type === "course") {
-      navigate('/')
-    }
-    else {
-      const description = ""
+      navigate("/");
+    } else {
+      const description = "";
       navigate(`/course/${courseName}`, { state: { nodeName, description } });
     }
-  }
+  };
 
   if (!result) {
     return <div>No result data available.</div>;

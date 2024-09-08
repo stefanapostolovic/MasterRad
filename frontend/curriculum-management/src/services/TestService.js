@@ -57,3 +57,30 @@ export const completeTestFromModule = async (moduleName, answers) => {
     throw error;
   }
 }
+
+export const retakeTestFromCourse = async (courseName) => {
+  try {
+    const response = await apiClient.get(
+      `/test/retakeFromCourse/${courseName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error while retaking the test from course: ",
+      courseName
+    );
+    throw error;
+  }
+}
+
+export const retakeTestFromModule = async (moduleName) => {
+  try {
+    const response = await apiClient.get(
+      `/test/retakeFromModule/${moduleName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error while retaking the test from module: ", moduleName);
+    throw error;
+  }
+};
