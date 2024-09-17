@@ -57,7 +57,7 @@ function Module() {
             <div>
               <img src={image.url} alt={`${index + 1}`} className="image" />
             </div>
-            <div className="subext">
+            <div className="subtext">
               <p>
                 Image {index + 1}: {image.description}
               </p>
