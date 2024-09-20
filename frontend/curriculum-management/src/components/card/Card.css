@@ -6,7 +6,7 @@
   margin-top: -1%;
   text-align: center;
   cursor: pointer;
-  background-color: #3d3d3d;
+  background-color: #345279;
   transition: background-color 0.3s ease, transform 0.2s;
   max-width: 600px;
   min-width: 200px;
@@ -18,7 +18,7 @@
 }
 
 .card:hover {
-  background-color: #525151; /* Brighter background color on hover */
+  background-color: #486b9c; /* Brighter background color on hover */
   transform: scale(1.05); /* Optional: slight zoom effect on hover */
 }
 

@@ -95,7 +95,7 @@ const TestResult = () => {
     <div className="result-container">
       <Card
         sx={{
-          backgroundColor: "#3d3d3d",
+          backgroundColor: "#345279",
           color: "white",
           border: "solid 1px rgb(81, 81, 81)",
           borderRadius: "4px",
@@ -162,7 +162,7 @@ const TestResult = () => {
           <div className="statistical-data-row">
             <Card
               sx={{
-                backgroundColor: "#2b2b2b",
+                backgroundColor: "#345279",
                 color: "white",
                 border: "solid 1px rgb(81, 81, 81)",
                 borderRadius: "4px",
@@ -226,7 +226,7 @@ const TestResult = () => {
               onClose={handleClose}
               PaperProps={{
                 sx: {
-                  backgroundColor: "#333",
+                  backgroundColor: "#345279",
                   color: "white",
                 },
               }}
@@ -296,7 +296,7 @@ const TestResult = () => {
             onClose={handleClose}
             PaperProps={{
               sx: {
-                backgroundColor: "#333",
+                backgroundColor: "#345279",
                 color: "white",
               },
             }}

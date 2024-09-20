@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: #192637;
+  background-color: #2a63ae;
   padding: 15px;
   width: 3%;
   height: 100vh; /* Ensures the sidebar fills the entire viewport height */
@@ -41,7 +41,7 @@ body {
 }
 
 .iconTextButton:hover {
-  background-color: #263953; /* Brighter background color on hover */
+  background-color: #5c8ac5; /* Brighter background color on hover */
 }
 
 .paragraph {
@@ -50,7 +50,7 @@ body {
 
 .icon-paragraph {
   margin-top: -2%;
-  color: #f5cb43;
+  color: #ffffff;
 }
 
 .warning-message {

@@ -29,9 +29,6 @@ def init_metamodel(path=None):
     os.mkdir('dot_files')
   model_export(crc_model, 'dot_files/metamodel.dot')
   
-  #TEMP
-  #print_model(crc_model)
-  
   return crc_model
 
 #OBJECT VALIDATORS

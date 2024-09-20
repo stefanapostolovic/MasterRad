@@ -277,19 +277,19 @@ function Test() {
         <div className="question-container">
           <Card
             sx={{
-              backgroundColor: "#3d3d3d",
+              backgroundColor: "#345279",
               color: "white",
               border: "solid 1px rgb(81, 81, 81)",
               borderRadius: "4px",
-              padding: "20px"
+              padding: "20px",
             }}
           >
             <CardContent>
               <Question
-                question={test.questions[currentQuestionIndex-1]}
-                answer={answers[currentQuestionIndex-1] || ""}
+                question={test.questions[currentQuestionIndex - 1]}
+                answer={answers[currentQuestionIndex - 1] || ""}
                 onAnswerChange={handleAnswerChange}
-                currentQuestionIndex={currentQuestionIndex-1}
+                currentQuestionIndex={currentQuestionIndex - 1}
               />
             </CardContent>
           </Card>
@@ -309,7 +309,7 @@ function Test() {
           <p>
             {currentQuestionIndex} / {test.questions.length}
           </p>
-          {currentQuestionIndex-1 < test.questions.length - 1 ? (
+          {currentQuestionIndex - 1 < test.questions.length - 1 ? (
             <Button
               size="medium"
               endIcon={<ArrowForwardIosIcon />}
@@ -338,13 +338,12 @@ function Test() {
         aria-describedby="alert-dialog-description"
         sx={{
           "& .MuiDialog-paper": {
-            backgroundColor: "#2b2c2c", // Gray background color
+            backgroundColor: "#345279", // Gray background color
             color: "white", // White text color
           },
         }}
       >
-        <DialogTitle id="alert-dialog-title">
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title"></DialogTitle>
         <DialogContent>
           <Typography>
             Are you sure you want to finish the test? Your answers will be

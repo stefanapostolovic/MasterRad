@@ -125,7 +125,7 @@ function Sidebar() {
         }}
         PaperProps={{
           sx: {
-            backgroundColor: "#192637", // Background color of the modal
+            backgroundColor: "#2a63ae", // Background color of the modal
             color: "white", // Text color inside the modal
           },
         }}
@@ -158,7 +158,7 @@ function Sidebar() {
       )}
       {clickedCourseName && (
         <button className="iconTextButton" onClick={goToModules}>
-          <BookIcon sx={{ color: "#f5cb43" }} />
+          <BookIcon sx={{ color: "#ffffff" }} />
           <p className="icon-paragraph">All lessons</p>
         </button>
       )}
