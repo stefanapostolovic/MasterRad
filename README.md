@@ -36,13 +36,13 @@ npm start
 Name: "Kurikulum1"
 Courses:
   C:
-    Name: "Projektovanje softvera"
+    Name: "Analiza 1"
     Description: 
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam libero, posuere et vulputate vel, finibus a erat. Aliquam erat volutpat. Morbi eget erat et lacus efficitur porta non et nulla. Ut at tortor in tortor ornare pellentesque. Donec non lectus ac nisi volutpat lacinia sit amet malesuada turpis. Nunc gravida accumsan ligula, nec dictum ex tincidunt vitae. Donec molestie quam vel sagittis rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
 
     Modules:
       M:
-        Name: "Agilno planiranje i razvoj softvera"
+        Name: "Integrali"
         Description: 
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam libero, posuere et vulputate vel, finibus a erat. Aliquam erat volutpat. Morbi eget erat et lacus efficitur porta non et nulla. Ut at tortor in tortor ornare pellentesque. Donec non lectus ac nisi volutpat lacinia sit amet malesuada turpis. Nunc gravida accumsan ligula, nec dictum ex tincidunt vitae. Donec molestie quam vel sagittis rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
 
@@ -52,18 +52,18 @@ Courses:
         Quisque vehicula rhoncus consequat. Suspendisse feugiat in urna eu commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum dignissim mauris et augue rutrum dictum. Sed ornare ex et ipsum viverra sagittis. Nunc euismod bibendum mi, nec vestibulum ligula viverra sed. Nullam suscipit, ipsum non venenatis vehicula, lectus ante maximus ante, eu dignissim lacus lorem quis diam. Phasellus interdum neque lacinia tortor accumsan fringilla. Phasellus faucibus sodales malesuada. Pellentesque porttitor porttitor consectetur. Cras convallis velit vel urna finibus, vitae blandit sapien hendrerit. Cras varius, mauris at cursus fringilla, mi sapien tristique est, in convallis risus metus vel lacus. Nullam quis mollis tortor. Ut eget eros libero"
 
         Images: 
-          Url: "https://cdn.prod.website-files.com/5c8824c3590eda44d6490dcf/6385a26dcf3c7488fa72f898_Agile-software-development-cycle-graphic.webp"
-          Description: "Opis slike 1"
+          Url: "https://solitaryroad.com/c364/ole.gif"
+          Description: "Lorem ipsum"
 
-          Url: "https://kruschecompany.com/wp-content/uploads/2021/06/AdobeStock_255546088-1280x595.png"
-          Description: "Opis slike 2"
+          Url: "https://d3i71xaburhd42.cloudfront.net/eaa302ec2107d8668b2d12e8b9fc965217f33322/56-Figure4.3-1.png"
+          Description: "Lorem ipsum"
 
         Videos:
-          Url: "https://www.youtube.com/watch?v=FCj0NMju_ig"
-          Description: "Opis videa 1"
+          Url: "https://www.youtube.com/watch?v=6WUjbJEeJwM"
+          Description: "Lorem ipsum"
 
-          Url: "https://www.youtube.com/watch?v=00mpCy123Ng"
-          Description: "Opis videa 2"
+          Url: "https://www.youtube.com/watch?v=rCWOdfQ3cwQ"
+          Description: "Lorem ipsum"
 
         Test:
           Name: "Kurs1 Modul1 Test"
@@ -77,7 +77,7 @@ Courses:
 
         Advice: "Advice module 1"
       M:
-        Name: "Dizajn vođen domenom - Taktike"
+        Name: "Izvodi"
         Description: 
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam libero, posuere et vulputate vel, finibus a erat. Aliquam erat volutpat. Morbi eget erat et lacus efficitur porta non et nulla. Ut at tortor in tortor ornare pellentesque. Donec non lectus ac nisi volutpat lacinia sit amet malesuada turpis. Nunc gravida accumsan ligula, nec dictum ex tincidunt vitae. Donec molestie quam vel sagittis rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
 
@@ -119,7 +119,7 @@ Courses:
           PassCriteria: percentage_required: 20
 
         Advice: "Advice module 2"
-        Prerequisites: module: "Agilno planiranje i razvoj softvera"
+        Prerequisites: module: "Integrali"
     
     Test:
       Name: "KursTest1"
@@ -176,13 +176,13 @@ Courses:
     Advice: "Advice course 1"
 
   C:
-    Name: "XML i veb servisi"
+    Name: "Digitalna forenzika"
     Description: 
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam libero, posuere et vulputate vel, finibus a erat. Aliquam erat volutpat. Morbi eget erat et lacus efficitur porta non et nulla. Ut at tortor in tortor ornare pellentesque. Donec non lectus ac nisi volutpat lacinia sit amet malesuada turpis. Nunc gravida accumsan ligula, nec dictum ex tincidunt vitae. Donec molestie quam vel sagittis rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
 
     Modules:
       M:
-        Name: "Razvoj vođen testovima"
+        Name: "Forenzika operativnih sistema"
         Description: 
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam diam libero, posuere et vulputate vel, finibus a erat. Aliquam erat volutpat. Morbi eget erat et lacus efficitur porta non et nulla. Ut at tortor in tortor ornare pellentesque. Donec non lectus ac nisi volutpat lacinia sit amet malesuada turpis. Nunc gravida accumsan ligula, nec dictum ex tincidunt vitae. Donec molestie quam vel sagittis rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
 
@@ -227,7 +227,7 @@ Courses:
           PassCriteria: percentage_required: 91
 
         Advice: "Advice module 2"
-        Prerequisites: module: "Agilno planiranje i razvoj softvera"
+        Prerequisites: module: "Integrali"
     
     Test:
       Name: "KursTest2"
@@ -241,5 +241,5 @@ Courses:
       PassCriteria: points_required: 4.5
     
     Advice: "Advice course 2"
-    Prerequisites: course: "Projektovanje softvera"
+    Prerequisites: course: "Analiza 1"
 ```
